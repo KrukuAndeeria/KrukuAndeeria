@@ -1961,6 +1961,6 @@ void AddSC_boss_sartharion()
 
     newscript = new Script;
     newscript->Name = "obsidian_sanctum_portals";
-    newscript->pGOHello = &GOobsidian_sanctum_portals;
+    newscript->pGOUse = &GOobsidian_sanctum_portals;
     newscript->RegisterSelf();
 }

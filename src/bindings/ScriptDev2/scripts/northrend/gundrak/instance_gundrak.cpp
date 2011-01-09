@@ -475,7 +475,7 @@ void AddSC_instance_gundrak()
 
     pNewScript = new Script;
     pNewScript->Name = "go_gundrak_altar";
-    pNewScript->pGOUse = &GOHello_go_gundrak_altar;
+    pNewScript->pGOUse = &GOUse_go_gundrak_altar;
     pNewScript->RegisterSelf();
 
     pNewScript = new Script;
