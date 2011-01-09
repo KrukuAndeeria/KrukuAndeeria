@@ -72,3 +72,4 @@ void ScriptedInstance::DestroyItemFromAllPlayers(uint32 uiItemId)
 	}
 	else
 		error_log("SD2: DestroyItemFromAllPlayers attempt to remove item: %u but no players in map.", uiItemId);
+}

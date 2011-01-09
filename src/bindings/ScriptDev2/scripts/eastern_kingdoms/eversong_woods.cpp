@@ -565,6 +565,6 @@ void AddSC_eversong_woods()
 	
 	pNewScript = new Script;
     pNewScript->Name= "npc_infused_crystal";
-    pNewScript->GetAI = &GetAI_npc_infused_crystalAI;
+    pNewScript->GetAI = &GetAI_npc_infused_crystal;
     pNewScript->RegisterSelf();
 }
