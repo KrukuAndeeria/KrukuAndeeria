@@ -492,6 +492,7 @@ enum
     NPC_JAN_ALAI                = 23578,
     NPC_SARTHARION              = 28860,
     NPC_TALON_KING_IKISS        = 18473,
+	NPC_HEIGAN					= 15936,
 	NPC_SAPPHIRON				= 15989
 
 };
