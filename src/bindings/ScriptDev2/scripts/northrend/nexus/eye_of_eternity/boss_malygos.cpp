@@ -1634,7 +1634,7 @@ struct MANGOS_DLL_DECL npc_alexstraszaAI : public ScriptedAI
 /*######
 ## go_focusing_iris
 ######*/
-bool GOHello_go_focusing_iris(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_focusing_iris(Player* pPlayer, GameObject* pGo)
 {
     ScriptedInstance* pInstance = (ScriptedInstance*)pGo->GetInstanceData();
     if (pInstance)
@@ -1728,6 +1728,6 @@ void AddSC_boss_malygos()
 
     newscript = new Script;
     newscript->Name = "go_focusing_iris";
-    newscript->pGOHello = &GOHello_go_focusing_iris;
+    newscript->pGOUse = &GOHello_go_focusing_iris;
     newscript->RegisterSelf();
 }

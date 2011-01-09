@@ -153,7 +153,7 @@ CreatureAI* GetAI_boss_dred(Creature* pCreature)
     return new boss_dredAI (pCreature);
 }
 
-bool EffectDummyCreature_boss_dred(Unit* pCaster, uint32 uiSpellId, SpellEffectIndex uiEffIndex, Creature* pCreatureTarget)
+bool EffectDummyNPC_boss_dred(Unit* pCaster, uint32 uiSpellId, SpellEffectIndex uiEffIndex, Creature* pCreatureTarget)
 {
     // select random raptor
     if (uiSpellId == SPELL_RAPTOR_CALL && uiEffIndex == EFFECT_INDEX_0)
@@ -207,6 +207,6 @@ void AddSC_boss_dred()
     newscript = new Script;
     newscript->Name = "boss_dred";
     newscript->GetAI = &GetAI_boss_dred;
-    newscript->pEffectDummyCreature = &EffectDummyCreature_boss_dred;
+    newscript->pEffectDummyCreature = &EffectDummyNPC_boss_dred;
     newscript->RegisterSelf();
 }
