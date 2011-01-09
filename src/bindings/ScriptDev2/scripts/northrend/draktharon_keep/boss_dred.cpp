@@ -207,6 +207,6 @@ void AddSC_boss_dred()
     newscript = new Script;
     newscript->Name = "boss_dred";
     newscript->GetAI = &GetAI_boss_dred;
-    newscript->pEffectDummyCreature = &EffectDummyNPC_boss_dred;
+    newscript->pEffectDummyNPC = &EffectDummyNPC_boss_dred;
     newscript->RegisterSelf();
 }
