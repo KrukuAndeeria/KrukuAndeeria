@@ -23,6 +23,4 @@ EndScriptData */
 
 #include "precompiled.h"
 
-void AddSC_instance_blackwing_lair()
-{
-}
+
