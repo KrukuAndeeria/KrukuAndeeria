@@ -125,8 +125,7 @@ extern void AddSC_boss_rasfrost();
 extern void AddSC_boss_theravenian();
 extern void AddSC_boss_vectus();
 extern void AddSC_instance_scholomance();
-extern void AddSC_boss_hummel();                            // shadowfang_keep
-extern void AddSC_shadowfang_keep();
+extern void AddSC_shadowfang_keep();                        // shadowfang_keep
 extern void AddSC_instance_shadowfang_keep();
 extern void AddSC_boss_magistrate_barthilas();              // stratholme
 extern void AddSC_boss_maleki_the_pallid();
@@ -247,6 +246,7 @@ extern void AddSC_boss_viscidus();
 extern void AddSC_mob_anubisath_sentinel();
 extern void AddSC_instance_temple_of_ahnqiraj();
 extern void AddSC_instance_wailing_caverns();               // wailing_caverns
+extern void AddSC_wailing_caverns();
 extern void AddSC_boss_zumrah();                            // zulfarrak
 extern void AddSC_instance_zulfarrak();
 extern void AddSC_zulfarrak();
@@ -626,8 +626,7 @@ void AddScripts()
     AddSC_boss_theravenian();
     AddSC_boss_vectus();
     AddSC_instance_scholomance();
-    AddSC_boss_hummel();                                    // shadowfang_keep
-    AddSC_shadowfang_keep();
+    AddSC_shadowfang_keep();                                // shadowfang_keep
     AddSC_instance_shadowfang_keep();
     AddSC_boss_magistrate_barthilas();                      // stratholme
     AddSC_boss_maleki_the_pallid();
@@ -748,6 +747,7 @@ void AddScripts()
     AddSC_mob_anubisath_sentinel();
     AddSC_instance_temple_of_ahnqiraj();
     AddSC_instance_wailing_caverns();                       // wailing_caverns
+    AddSC_wailing_caverns();
     AddSC_boss_zumrah();                                    // zulfarrak
     AddSC_zulfarrak();
     AddSC_instance_zulfarrak();
