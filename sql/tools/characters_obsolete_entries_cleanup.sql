@@ -25,11 +25,18 @@ DELETE FROM `character_queststatus_daily` WHERE `guid` NOT IN (SELECT `guid` FRO
 DELETE FROM `character_queststatus_weekly` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
 DELETE FROM `character_queststatus_monthly` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
 DELETE FROM `character_reputation` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
+DELETE FROM `character_skills` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
 DELETE FROM `character_social` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
 DELETE FROM `character_social` WHERE `friend` NOT IN (SELECT `guid` FROM `characters`);
 DELETE FROM `character_spell` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
 DELETE FROM `character_spell_cooldown` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
+DELETE FROM `character_stats` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
 DELETE FROM `character_talent` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
+
+DELETE FROM `arena_team_member` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
+DELETE FROM `arena_team` WHERE (SELECT COUNT(*) FROM `arena_team_member` WHERE `arenateamid` = `arena_team`.`arenateamid`) = 0;
+DELETE FROM `arena_team_member` WHERE `arenateamid` NOT IN (SELECT `arenateamid` FROM `arena_team`);
+DELETE FROM `arena_team_stats` WHERE `arenateamid` NOT IN (SELECT `arenateamid` FROM `arena_team`);
 
 DELETE FROM `guild_member` WHERE `guid` NOT IN (SELECT `guid` FROM `characters`);
 DELETE FROM `guild` WHERE (SELECT COUNT(*) FROM `guild_member` WHERE `guildid` = `guild`.`guildid`) = 0;
