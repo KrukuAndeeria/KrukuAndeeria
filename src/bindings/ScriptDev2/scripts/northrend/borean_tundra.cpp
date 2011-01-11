@@ -695,7 +695,7 @@ CreatureAI* GetAI_mob_tadpole(Creature* pCreature)
     return new mob_tadpoleAI(pCreature);
 }
 
-bool GOHello_go_tadpole_cage(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_tadpole_cage(Player* pPlayer, GameObject* pGo)
 {
     if (!pPlayer)
         return false;
@@ -813,7 +813,7 @@ enum
     SPELL_DESPAWN_SELF       =  43014
 };
 
-bool GOHello_go_mammoth_trap(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_mammoth_trap(Player* pPlayer, GameObject* pGo)
 {
     if (pPlayer->GetQuestStatus(QUEST_HELP_THOSE_THAT) == QUEST_STATUS_INCOMPLETE)
     {
@@ -917,7 +917,7 @@ enum
     NPC_SCOURGE_PRISONER        =  25610,
 };
 
-bool GOHello_go_scourge_cage(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_scourge_cage(Player* pPlayer, GameObject* pGo)
 {
     if (pPlayer->GetQuestStatus(QUEST_MERCIFUL_FREEDOM) == QUEST_STATUS_INCOMPLETE)
     {
@@ -932,7 +932,7 @@ bool GOHello_go_scourge_cage(Player* pPlayer, GameObject* pGo)
 };
 
 /*######
-## npc_nexus_drake_hatchling
+## npc_nexus_drake
 ######*/
 
 enum
@@ -1029,6 +1029,11 @@ struct MANGOS_DLL_DECL npc_nexus_drakeAI : public FollowerAI
         }
 };
 
+CreatureAI* GetAI_npc_nexus_drake(Creature* pCreature)
+{
+    return new npc_nexus_drakeAI(pCreature);
+}
+
 void AddSC_borean_tundra()
 {
     Script *newscript;
@@ -1091,7 +1096,7 @@ void AddSC_borean_tundra()
 
     newscript = new Script;
     newscript->Name = "go_tadpole_cage";
-    newscript->pGOHello = &GOHello_go_tadpole_cage;
+    newscript->pGOUse = &GOUse_go_tadpole_cage;
     newscript->RegisterSelf();
 
     newscript = new Script;
@@ -1101,7 +1106,7 @@ void AddSC_borean_tundra()
 
     newscript = new Script;
     newscript->Name = "go_mammoth_trap";
-    newscript->pGOHello = &GOHello_go_mammoth_trap;
+    newscript->pGOUse = &GOUse_go_mammoth_trap;
     newscript->RegisterSelf();
 
     newscript = new Script;
@@ -1111,7 +1116,7 @@ void AddSC_borean_tundra()
 
     newscript = new Script;
     newscript->Name = "go_scourge_cage";
-    newscript->pGOHello = &GOHello_go_scourge_cage;
+    newscript->pGOUse = &GOUse_go_scourge_cage;
     newscript->RegisterSelf();
 
     newscript = new Script;

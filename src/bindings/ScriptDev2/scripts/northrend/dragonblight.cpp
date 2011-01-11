@@ -221,7 +221,7 @@ enum
     NPC_ABBOT                           = 27439
 };
 
-bool GOHello_go_abbey_bell_rope(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_abbey_bell_rope(Player* pPlayer, GameObject* pGo)
 {
     if (!pGo || !pPlayer)
         return false;
@@ -449,7 +449,7 @@ void AddSC_dragonblight()
 
     newscript = new Script;
     newscript->Name = "go_abbey_bell_rope";
-    newscript->pGOHello = &GOHello_go_abbey_bell_rope;
+    newscript->pGOUse = &GOUse_go_abbey_bell_rope;
     newscript->RegisterSelf();
 
     newscript = new Script;

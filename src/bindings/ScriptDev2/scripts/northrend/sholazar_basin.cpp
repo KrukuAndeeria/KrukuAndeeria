@@ -438,7 +438,7 @@ struct MANGOS_DLL_DECL mob_taste_testAI : public ScriptedAI
     }
 };
 
-bool EffectDummyCreature_mob_taste_test(Unit *pCaster, uint32 spellId, SpellEffectIndex effIndex, Creature *pCreatureTarget)
+bool EffectDummyNPC_mob_taste_test(Unit *pCaster, uint32 spellId, SpellEffectIndex effIndex, Creature *pCreatureTarget)
 {
     if (spellId == SPELL_OFFER_JUNGLE_PUNCH && effIndex == EFFECT_INDEX_1 && pCaster->GetTypeId() == TYPEID_PLAYER && pCreatureTarget)
     {
@@ -651,7 +651,7 @@ enum
     NPC_TIPSY_MCMANUS              =  28566,
 };
 
-bool GOHello_go_still_at_it_quest(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_still_at_it_quest(Player* pPlayer, GameObject* pGo)
 {
     if (pPlayer->GetQuestStatus(QUEST_STILL_AT_IT) == QUEST_STATUS_INCOMPLETE)
     {
@@ -1010,12 +1010,12 @@ void AddSC_sholazar_basin()
     pNewScript = new Script;
     pNewScript->Name = "mob_taste_test";
     pNewScript->GetAI = &GetAI_mob_taste_test;
-    pNewScript->pEffectDummyCreature = &EffectDummyCreature_mob_taste_test;
+    pNewScript->pEffectDummyNPC = &EffectDummyNPC_mob_taste_test;
     pNewScript->RegisterSelf();
 
     pNewScript = new Script;
     pNewScript->Name = "go_still_at_it_quest";
-    pNewScript->pGOHello = &GOHello_go_still_at_it_quest;
+    pNewScript->pGOUse = &GOUse_go_still_at_it_quest;
     pNewScript->RegisterSelf();
 
     pNewScript = new Script;
@@ -1023,12 +1023,6 @@ void AddSC_sholazar_basin()
     pNewScript->GetAI = &GetAI_npc_tipsy_mcmanus;
     pNewScript->pGossipHello = &GossipHello_npc_tipsy_mcmanus;
     pNewScript->pGossipSelect = &GossipSelect_npc_tipsy_mcmanus;
-    pNewScript->RegisterSelf();
-
-    pNewScript = new Script;
-    pNewScript->Name = "mob_mosswalker_victim";
-    pNewScript->pGossipHello = &GossipHello_mob_mosswalker_victim;
-    pNewScript->pGossipSelect = &GossipSelect_mob_mosswalker_victim;
     pNewScript->RegisterSelf();
 
     pNewScript = new Script;

@@ -237,7 +237,7 @@ CreatureAI* GetAI_npc_father_kamaros(Creature* pCreature)
     return new npc_father_kamarosAI (pCreature);
 }
 
-bool QuestAccept_npc_father_kamaros(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
+bool QuestAcceptNPC_npc_father_kamaros(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
 {
     switch(pQuest->GetQuestId())
     {
@@ -340,7 +340,7 @@ void AddSC_icecrown()
     newscript = new Script;
     newscript->Name = "npc_father_kamaros";
     newscript->GetAI = &GetAI_npc_father_kamaros;
-    newscript->pQuestAccept = &QuestAccept_npc_father_kamaros;
+    newscript->pQuestAcceptNPC = &QuestAcceptNPC_npc_father_kamaros;
     newscript->RegisterSelf();
 
     newscript = new Script;

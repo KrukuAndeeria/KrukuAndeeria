@@ -406,10 +406,11 @@ enum
     QUEST_THEY_TOOK_OUR_MEN     = 12843,
     NPC_GOBLIN_PRISONER         = 29466,
     SAY_THANKS_1                = -1999778,
-    SAY_THANKS_2                = -1999777
+    SAY_THANKS_2                = -1999777,
+    SPELL_DESPAWN_SELF          = 43014
 };
 
-bool GOHello_go_rusty_cage(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_rusty_cage(Player* pPlayer, GameObject* pGo)
 {
     if (pPlayer->GetQuestStatus(QUEST_THEY_TOOK_OUR_MEN) == QUEST_STATUS_INCOMPLETE)
     {
@@ -437,7 +438,7 @@ enum
     SAY_NARVIR2                 = -1532117
 };
 
-bool GOHello_go_heart_of_the_storm(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_heart_of_the_storm(Player* pPlayer, GameObject* pGo)
 {
     Creature* pNarvir = GetClosestCreatureWithEntry(pPlayer, NPC_OVERSEER_NARVIR, 25.0f);
     if (pNarvir)
@@ -541,7 +542,7 @@ void AddSC_storm_peaks()
 
     newscript = new Script;
     newscript->Name = "go_rusty_cage";
-    newscript->pGOHello = &GOHello_go_rusty_cage;
+    newscript->pGOUse = &GOUse_go_rusty_cage;
     newscript->RegisterSelf();
 
     newscript = new Script;
@@ -553,7 +554,7 @@ void AddSC_storm_peaks()
 
     newscript = new Script;
     newscript->Name = "go_heart_of_the_storm";
-    newscript->pGOHello = &GOHello_go_heart_of_the_storm;
+    newscript->pGOUse = &GOUse_go_heart_of_the_storm;
     newscript->RegisterSelf();
     
     newscript = new Script;
