@@ -770,7 +770,7 @@ struct MANGOS_DLL_DECL boss_kalecAI : public ScriptedAI
 };
 
 //Spectral Realm Rift
-bool GOkalecgos_teleporter(Player* pPlayer, GameObject* pGo)
+bool GOUsekalecgos_teleporter(Player* pPlayer, GameObject* pGo)
 {
     //In theory, each portal can be used by up to 10 players before it expires (pCreature) wowwiki
     if (pPlayer->HasAura(SPELL_SPECTRAL_EXHAUSTION))
@@ -824,6 +824,6 @@ void AddSC_boss_kalecgos()
 
     newscript = new Script;
     newscript->Name="kalecgos_teleporter";
-    newscript->pGOHello = &GOkalecgos_teleporter;
+    newscript->pGOUse = &GOUsekalecgos_teleporter;
     newscript->RegisterSelf();
 }

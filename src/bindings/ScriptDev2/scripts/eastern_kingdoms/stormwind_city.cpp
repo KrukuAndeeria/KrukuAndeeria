@@ -321,7 +321,7 @@ struct MANGOS_DLL_DECL npc_corbett_schneiderAI : public npc_escortAI
 /*######
 ## npc_rema_schneider
 ######*/
-bool ChooseReward_npc_rema_schneider(Player* pPlayer, Creature* pCreature, const Quest* pQuest, uint32 slot)
+bool QuestRewarded_npc_rema_schneider(Player* pPlayer, Creature* pCreature, Quest const* pQuest)
 {
 
     if (pPlayer && pQuest->GetQuestId() == QUEST_HARLAN_RESUPPLY)
@@ -854,7 +854,7 @@ void AddSC_stormwind_city()
 
     newscript = new Script;
     newscript->Name = "npc_rema_schneider";
-    newscript->pChooseReward = &ChooseReward_npc_rema_schneider;
+    newscript->pQuestRewardedNPC = &QuestRewarded_npc_rema_schneider;
     newscript->RegisterSelf();
 
     newscript = new Script;
