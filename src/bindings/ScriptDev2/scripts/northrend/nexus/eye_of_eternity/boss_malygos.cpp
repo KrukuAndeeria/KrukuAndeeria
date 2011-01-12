@@ -681,20 +681,23 @@ struct MANGOS_DLL_DECL boss_malygosAI : public ScriptedAI
             return;
         }
 
-        if (m_uiEnrageTimer <= uiDiff)
+        if (m_uiPhase != PHASE_INTRO)
         {
-            SetCombatMovement(true);
-            DoCast(m_creature, SPELL_BERSERK, true);
-            m_uiEnrageTimer = 600000;
-
-            if (Unit *pVictim = m_creature->getVictim())
+            if (m_uiEnrageTimer <= uiDiff)
             {
-                m_creature->GetMotionMaster()->Clear(false, true);
-                m_creature->GetMotionMaster()->MoveChase(pVictim);
+                SetCombatMovement(true);
+                DoCast(m_creature, SPELL_BERSERK, true);
+                m_uiEnrageTimer = 600000;
+
+                if (Unit *pVictim = m_creature->getVictim())
+                {
+                    m_creature->GetMotionMaster()->Clear(false, true);
+                    m_creature->GetMotionMaster()->MoveChase(pVictim);
+                }
             }
+            else
+                m_uiEnrageTimer -= uiDiff;
         }
-        else
-            m_uiEnrageTimer -= uiDiff;
 
         if (m_uiPhase == PHASE_FLOOR)
         {
