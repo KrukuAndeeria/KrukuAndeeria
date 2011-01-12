@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "nexus.h"
 
-bool GOUse_go_containment_sphere(Player* pPlayer, GameObject* pGo)
+bool GOHello_go_containment_sphere(Player* pPlayer, GameObject* pGo)
 {
     ScriptedInstance* pInstance = (ScriptedInstance*)pGo->GetInstanceData();
 
@@ -188,7 +188,10 @@ struct MANGOS_DLL_DECL instance_nexus : public ScriptedInstance
             if (Creature* pCreature = instance->GetCreature(m_uiKeristrazaGUID))
             {
                 if (pCreature->isAlive())
+                {
                     pCreature->RemoveAurasDueToSpell(SPELL_FROZEN_PRISON);
+                    pCreature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
+                }
             }
         }
 
@@ -250,6 +253,6 @@ void AddSC_instance_nexus()
 
     newscript = new Script;
     newscript->Name = "go_containment_sphere";
-    newscript->pGOUse = &GOUse_go_containment_sphere;
+    newscript->pGOHello = &GOHello_go_containment_sphere;
     newscript->RegisterSelf();
 }
