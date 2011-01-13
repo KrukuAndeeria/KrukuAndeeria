@@ -140,7 +140,7 @@ CreatureAI* GetAI_mob_broggok_poisoncloud(Creature* pCreature)
     return new mob_broggok_poisoncloudAI(pCreature);
 }
 
-bool GOHello_go_cell_door_lever(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_cell_door_lever(Player* pPlayer, GameObject* pGo)
 {
     instance_blood_furnace* m_pInstance = (instance_blood_furnace*)pGo->GetInstanceData();
     if (!m_pInstance || m_pInstance->GetData(TYPE_BROGGOK_INTRO_EVENT) != NOT_STARTED)
@@ -167,6 +167,6 @@ void AddSC_boss_broggok()
 
     pNewScript = new Script;
     pNewScript->Name = "go_cell_door_lever";
-    pNewScript->pGOHello = &GOHello_go_cell_door_lever;
+    pNewScript->pGOUse = &GOUse_go_cell_door_lever;
     pNewScript->RegisterSelf();
 }
