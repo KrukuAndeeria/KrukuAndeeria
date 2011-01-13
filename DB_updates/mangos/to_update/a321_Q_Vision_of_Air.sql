@@ -2,7 +2,7 @@
 -- add trigger fo quest item
 DELETE FROM `gameobject` WHERE `id`=300172;
 INSERT INTO `gameobject` (`guid`,`id`,`map`,`spawnMask`,`phaseMask`,`position_x`,`position_y`,`position_z`,`orientation`,`rotation0`,`rotation1`,`rotation2`,`rotation3`,`spawntimesecs`,`animprogress`,`state`)
-VALUES (3457148,300172,571,1,1,4526.36,5674.26,82.1013,3.45575,0,0,0.651642,0.758527,25,0,1);
+VALUES (3458888,300172,571,1,1,4526.36,5674.26,82.1013,3.45575,0,0,0.651642,0.758527,25,0,1);
 
 -- set up the primal to summon Visions
 DELETE FROM `event_scripts` WHERE `id`=16716;
