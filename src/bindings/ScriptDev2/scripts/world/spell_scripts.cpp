@@ -285,7 +285,13 @@ enum
 	NPC_NIFFELEM_FROST_GIANT            = 29974,
 	SPELL_BLOW_HODIR_HORN               = 55983,
 	NPC_KC_REST                         = 30138,
-	NPC_KC_FROST                        = 30139
+	NPC_KC_FROST                        = 30139,
+
+    // quest The Restless Dead
+    NPC_REANIMATED_CRUSADER_F           = 30202,
+	NPC_REANIMATED_CRUSADER_G           = 31043,
+	SPELL_FREED_CRUSADER_SOUL           = 57808,
+	SPELL_SPRINKLE_HOLY_WATER           = 57806
 };
 
 bool EffectAuraDummy_spell_aura_dummy_npc(const Aura* pAura, bool bApply)
@@ -433,6 +439,57 @@ bool EffectAuraDummy_spell_aura_dummy_npc(const Aura* pAura, bool bApply)
             }
 
             return false;
+        }
+        case SPELL_FUMPING:
+        {
+            if (pAura->GetEffIndex() == EFFECT_INDEX_2)
+            {
+                switch(urand(0,2))
+                {
+                    case 0:
+                    {
+                        ((Unit*)pAura->GetCaster())->CastSpell((Creature*)pAura->GetTarget(), SPELL_SUMMON_HAISHULUD, true);
+                        break;
+                    }
+                    case 1:
+                    {
+                        for (int i = 0; i<2; ++i)
+                        {
+                            if (Creature* pSandGnome = ((Unit*)pAura->GetCaster())->SummonCreature(NPC_SAND_GNOME, ((Creature*)pAura->GetTarget())->GetPositionX(), ((Creature*)pAura->GetTarget())->GetPositionY(), ((Creature*)pAura->GetTarget())->GetPositionZ(), 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 30000))
+                                pSandGnome->AI()->AttackStart((Unit*)pAura->GetCaster());
+                        }
+                        break;
+                    }
+                    case 2:
+                    {
+                        for (int i = 0; i<2; ++i)
+                        {
+                            if (Creature* pMatureBoneSifter = ((Unit*)pAura->GetCaster())->SummonCreature(NPC_MATURE_BONE_SIFTER, ((Creature*)pAura->GetTarget())->GetPositionX(), ((Creature*)pAura->GetTarget())->GetPositionY(), ((Creature*)pAura->GetTarget())->GetPositionZ(), 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 30000))
+                                pMatureBoneSifter->AI()->AttackStart((Unit*)pAura->GetCaster());
+                        }
+                        break;
+                    }
+                }
+                ((Creature*)pAura->GetTarget())->ForcedDespawn();
+            }
+            return true;
+        }
+        case SPELL_SPRINKLE_HOLY_WATER:
+        {
+	        Creature* pCreature = (Creature*)pAura->GetTarget();
+
+            if (!pCreature || pAura->GetEffIndex() != EFFECT_INDEX_0)
+                return false;
+
+            if (bApply)
+            {
+                if (pCreature->GetEntry() == NPC_REANIMATED_CRUSADER_F || pCreature->GetEntry() == NPC_REANIMATED_CRUSADER_G)
+                {
+                    if (Unit* pCaster = pAura->GetCaster())
+                        pCreature->CastSpell(pCaster, SPELL_FREED_CRUSADER_SOUL, true);
+		        }
+                return true;
+            }
         }
     }
 
