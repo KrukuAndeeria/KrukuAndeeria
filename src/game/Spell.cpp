@@ -1204,8 +1204,13 @@ void Spell::DoSpellHitOnUnit(Unit *unit, const uint32 effectMask)
             }
 
             // not break stealth by cast targeting
-            if (!(m_spellInfo->AttributesEx & SPELL_ATTR_EX_NOT_BREAK_STEALTH) && m_spellInfo->Id != 3600)
+            if ((!(m_spellInfo->AttributesEx & SPELL_ATTR_EX_NOT_BREAK_STEALTH)
+                // dirty hacks! Earthbind Totem and Sap. maybe the attribute flag is wrong
+                && m_spellInfo->Id != 3600) ||
+                (m_spellInfo->SpellFamilyName == SPELLFAMILY_ROGUE && m_spellInfo->SpellFamilyFlags == SPELLFAMILYFLAG_ROGUE_SAP))
+            {
                 unit->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
+            }
 
             // can cause back attack (if detected), stealth removed at Spell::cast if spell break it
             if (!(m_spellInfo->AttributesEx & SPELL_ATTR_EX_NO_INITIAL_AGGRO) && !IsPositiveSpell(m_spellInfo->Id) &&
