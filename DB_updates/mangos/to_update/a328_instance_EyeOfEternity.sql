@@ -94,12 +94,12 @@ DELETE FROM gameobject_loot_template WHERE entry IN (26094, 26097);
 INSERT INTO gameobject_loot_template (entry, item, ChanceOrQuestChance, groupid, mincountOrRef, maxcount) VALUES
 (26094, 40752, 100, 0, 2, 2), -- Emblem of Heroism x2
 (26094, 	1, 100, 0, -50008, 2), -- 2 items ilevel 213
-(26094, 44650, 100, 0, 1, 1), -- Quest item, Judgement at the Eye of Eternity
+(26094, 44650, -100, 0, 1, 1), -- Quest item, Judgement at the Eye of Eternity
 (26094, 43953, 1, 0, 1, 1), -- Reins of the Blue Drake 	
 -- End of 10m Malygos loot
 
 (26097, 40753, 100, 0, 2, 2), -- Emblem of Valor x2
 (26097, 	1, 100, 0, -50009, 4), -- 4 items ilevel 226
-(26097, 44651, 100, 0, 1, 1), -- Quest item, Heroic Judgement at the Eye of Eternity
+(26097, 44651, -100, 0, 1, 1), -- Quest item, Heroic Judgement at the Eye of Eternity
 (26097, 43952, 1, 0, 1, 1); -- Reins of the Azure Drake
 -- End of 25m Malygos loot
