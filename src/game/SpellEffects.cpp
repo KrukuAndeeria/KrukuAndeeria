@@ -6717,6 +6717,14 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
 
                     return;
                 }
+                case 50725:                                 //Vigilance -> Remove SpellCooldown of Taunt
+                {
+                    if (Player* pAuraCaster = (Player*)(m_caster->GetAura(50720, EFFECT_INDEX_0)->GetCaster()))
+                    {
+                        if (pAuraCaster->HasSpellCooldown(355))
+                            pAuraCaster->RemoveSpellCooldown(355, true);
+                    }
+                }
                 case 51770:                                 // Emblazon Runeblade
                 {
                     Unit* caster = GetAffectiveCaster();

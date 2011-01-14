@@ -6871,6 +6871,18 @@ uint32 Unit::SpellDamageBonusTaken(Unit *pCaster, SpellEntry const *spellProto, 
     // .. taken pct: dummy auras
     if (GetTypeId() == TYPEID_PLAYER)
     {
+        // non-stacking auras - Vigilance, Renewed Hope and (Greater) Blessing of Sanctuary
+        Aura *pAura = GetAura(50720, EFFECT_INDEX_0);  // Vigilance
+        if (!pAura)
+            pAura = GetDummyAura(63944);               // Renewed Hope
+        if (!pAura)
+            pAura = GetDummyAura(20911);               // Blessing of Sanctuary
+        if (!pAura)
+            pAura = GetDummyAura(25899);               // Greater Blessing of Sanctuary
+
+        if (pAura)
+            TakenTotalMod *= (float(pAura->GetModifier()->m_amount) + 100.0f) / 100.0f;
+
         //Cheat Death
         if (Aura *dummy = GetDummyAura(45182))
         {
@@ -7906,6 +7918,18 @@ uint32 Unit::MeleeDamageBonusTaken(Unit *pCaster, uint32 pdamage,WeaponAttackTyp
                 break;
         }
     }
+
+    // non-stacking auras - Vigilance, Renewed Hope and (Greater) Blessing of Sanctuary
+    Aura *pAura = GetAura(50720, EFFECT_INDEX_0);  // Vigilance
+    if (!pAura)
+        pAura = GetDummyAura(63944);               // Renewed Hope
+    if (!pAura)
+        pAura = GetDummyAura(20911);               // Blessing of Sanctuary
+    if (!pAura)
+        pAura = GetDummyAura(25899);               // Greater Blessing of Sanctuary
+
+    if (pAura)
+        TakenPercent *= (float(pAura->GetModifier()->m_amount) + 100.0f) / 100.0f;
 
     // final calculation
     // =================

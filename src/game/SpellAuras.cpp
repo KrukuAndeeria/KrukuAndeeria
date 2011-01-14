@@ -1070,7 +1070,7 @@ bool Aura::IsEffectStacking()
         case SPELL_AURA_MOD_ATTACK_POWER:                               // (Greater) Blessing of Might / Battle Shout
         case SPELL_AURA_MOD_RANGED_ATTACK_POWER:
         case SPELL_AURA_MOD_POWER_REGEN:                                // (Greater) Blessing of Wisdom
-        case SPELL_AURA_MOD_DAMAGE_PERCENT_TAKEN:                       // Renewed Hope / (Greater) Blessing of Sanctuary / Vigilance // Glyph of Salvation / Pain Suppression / Safeguard ?
+        case SPELL_AURA_MOD_DAMAGE_PERCENT_TAKEN:                       // Glyph of Salvation / Pain Suppression / Safeguard ? 
             if (GetSpellProto()->AttributesEx6 & SPELL_ATTR_EX6_UNK26)
                 return false;
             break;
@@ -2474,7 +2474,6 @@ void Aura::HandleAuraDummy(bool apply, bool Real)
             }
             case 35079:                                     // Misdirection, triggered buff
             case 59628:                                     // Tricks of the Trade, triggered buff
-            case 59665:                                     // Vigilance, redirection spell
             {
                 if (Unit* pCaster = GetCaster())
                     pCaster->getHostileRefManager().ResetThreatRedirection();
@@ -5117,13 +5116,32 @@ void Aura::HandleAuraProcTriggerSpell(bool apply, bool Real)
     if(!Real)
         return;
 
+    Unit *caster = GetCaster();
+    Unit *target = GetTarget();
+
     if(apply)
     {
-        // some spell have charges by functionality not have its in spell data
         switch (GetId())
         {
+            // some spell have charges by functionality not have its in spell data
             case 28200:                                     // Ascendance (Talisman of Ascendance trinket)
                 GetHolder()->SetAuraCharges(6);
+                break;
+            case 50720:                                     // Vigilance (threat transfering)
+                if (caster && target)
+                    target->CastSpell(caster, 59665, true);
+                break;
+            default: break;
+        }
+    }
+    // remove
+    else
+    {
+        switch (GetId())
+        {
+            case 50720:                                     // Vigilance (reset threat transfering)
+                if (target)
+                    target->getHostileRefManager().ResetThreatRedirection();
                 break;
             default: break;
         }
