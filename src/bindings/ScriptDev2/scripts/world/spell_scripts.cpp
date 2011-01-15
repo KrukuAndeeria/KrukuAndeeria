@@ -760,7 +760,6 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
                 pCreatureTarget->CastSpell(pCaster, SPELL_FALLEN_COMBATAN_CREDIT, true);
             return true;
         }
-<<<<<<< HEAD
         case SPELL_FUMPING:
         {
             if (uiEffIndex == EFFECT_INDEX_2)
@@ -792,7 +791,7 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
                     }
                 }
                 pCreatureTarget->ForcedDespawn();
-=======
+        }
         case SPELL_BLOW_HODIR_HORN:
         {
             if (uiEffIndex == EFFECT_INDEX_0)
@@ -804,7 +803,6 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
 		            else if (pCreatureTarget->GetEntry() == NPC_NIFFELEM_FROST_GIANT)
                         ((Player*)pCaster)->KilledMonsterCredit(NPC_KC_REST, pCreatureTarget->GetGUID());
                 }
->>>>>>> ef8e143... [a317] Support for quest Blowing Hodir's Horn.
             }
             return true;
         }
