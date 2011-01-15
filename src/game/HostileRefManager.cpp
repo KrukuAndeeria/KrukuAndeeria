@@ -67,7 +67,7 @@ void HostileRefManager::threatAssist(Unit *pVictim, float pThreat, SpellEntry co
         {
             if (pThreatSpell->Id == 586) // Fade - dont mod threat for targets aggroed after aura applying
             {
-                if (threat > 0 && ref->getThreat() < 0)
+                if (threat < 0 || threat > 0 && ref->getThreat() < 0)
                     ref->addThreat(float (threat) / size);          // It is faster to modify the threat durectly if possible
             }
             else
