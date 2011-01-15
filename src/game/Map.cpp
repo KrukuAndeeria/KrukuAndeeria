@@ -1405,7 +1405,9 @@ bool InstanceMap::Add(Player *player)
                     player->BindToInstance(GetInstanceSave(), false);
                 else
                     // cannot jump to a different instance without resetting it
-                    MANGOS_ASSERT(playerBind->save == GetInstanceSave());
+                    //MANGOS_ASSERT(playerBind->save == GetInstanceSave());
+                    if (!player->isGameMaster()) // Allow GMs jump from instance to another
+                        player->RepopAtGraveyard();
 
             }
         }
