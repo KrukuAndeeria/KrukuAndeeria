@@ -117,7 +117,7 @@ uint64 instance_obsidian_sanctum::GetData64(uint32 uiData)
     return 0;
 }
 
-bool instance_naxxramas::IsEncounterInProgress() const
+bool instance_obsidian_sanctum::IsEncounterInProgress() const
 {
     for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         if (m_auiEncounter[i] == IN_PROGRESS)
