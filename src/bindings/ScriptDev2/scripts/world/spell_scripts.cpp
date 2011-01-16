@@ -487,7 +487,7 @@ bool EffectAuraDummy_spell_aura_dummy_npc(const Aura* pAura, bool bApply)
                 {
                     if (Unit* pCaster = pAura->GetCaster())
                         pCreature->CastSpell(pCaster, SPELL_FREED_CRUSADER_SOUL, true);
-		        }
+                }
                 return true;
             }
         }
@@ -816,38 +816,6 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
             if (pCreatureTarget->GetEntry() == NPC_FALLEN_COMBATANT_1 || pCreatureTarget->GetEntry() == NPC_FALLEN_COMBATANT_2)
                 pCreatureTarget->CastSpell(pCaster, SPELL_FALLEN_COMBATAN_CREDIT, true);
             return true;
-        }
-        case SPELL_FUMPING:
-        {
-            if (uiEffIndex == EFFECT_INDEX_2)
-            {
-                switch(urand(0,2))
-                {
-                    case 0:
-                    {
-                        pCaster->CastSpell(pCreatureTarget, SPELL_SUMMON_HAISHULUD, true);
-                        break;
-                    }
-                    case 1:
-                    {
-                        for (int i = 0; i<2; ++i)
-                        {
-                            if (Creature* pSandGnome = pCaster->SummonCreature(NPC_SAND_GNOME, pCreatureTarget->GetPositionX(), pCreatureTarget->GetPositionY(), pCreatureTarget->GetPositionZ(), 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 30000))
-                                pSandGnome->AI()->AttackStart(pCaster);
-                        }
-                        break;
-                    }
-                    case 2:
-                    {
-                        for (int i = 0; i<2; ++i)
-                        {
-                            if (Creature* pMatureBoneSifter = pCaster->SummonCreature(NPC_MATURE_BONE_SIFTER, pCreatureTarget->GetPositionX(), pCreatureTarget->GetPositionY(), pCreatureTarget->GetPositionZ(), 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 30000))
-                                pMatureBoneSifter->AI()->AttackStart(pCaster);
-                        }
-                        break;
-                    }
-                }
-                pCreatureTarget->ForcedDespawn();
         }
         case SPELL_BLOW_HODIR_HORN:
         {
