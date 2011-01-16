@@ -79,6 +79,7 @@ class MANGOS_DLL_DECL instance_obsidian_sanctum : public ScriptedInstance
     void SetData(uint32 uiType, uint32 uiData);
     uint32 GetData(uint32 uiType);
     uint64 GetData64(uint32 uiData);
+    bool IsEncounterInProgress() const;
     bool CheckConditionCriteriaMeet(Player const* pSource, uint32 uiMapId, uint32 uiInstanceConditionId);
     //bool CheckAchievementCriteriaMeet(uint32 uiCriteriaId, Player const* pSource, Unit const* pTarget, uint32 uiMiscValue1 /* = 0*/);
 };
