@@ -9048,8 +9048,16 @@ void Spell::EffectRestoreItemCharges( SpellEffectIndex eff_idx )
 
 void Spell::EffectRedirectThreat(SpellEffectIndex eff_idx)
 {
-    if (unitTarget)
-        m_caster->getHostileRefManager().SetThreatRedirection(unitTarget->GetObjectGuid(), uint32(damage));
+    if (!unitTarget)
+        return;
+
+    // modifiers
+    // Glyph of Vigilance
+    if (m_spellInfo->Id == 59665)
+        if (Aura *glyph = unitTarget->GetDummyAura(63326))
+            damage += (uint32)glyph->GetModifier()->m_amount;
+
+    m_caster->getHostileRefManager().SetThreatRedirection(unitTarget->GetObjectGuid(), uint32(damage));
 }
 
 void Spell::EffectTeachTaxiNode( SpellEffectIndex eff_idx )
