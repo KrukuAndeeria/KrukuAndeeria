@@ -117,15 +117,6 @@ uint64 instance_obsidian_sanctum::GetData64(uint32 uiData)
     return 0;
 }
 
-bool instance_naxxramas::IsEncounterInProgress() const
-{
-    for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
-        if (m_auiEncounter[i] == IN_PROGRESS)
-            return true;
-
-    return false;
-}
-
 bool instance_obsidian_sanctum::CheckConditionCriteriaMeet(Player const* pSource, uint32 uiMapId, uint32 uiInstanceConditionId)
 {
     return (GetData(uiInstanceConditionId) == DONE);
