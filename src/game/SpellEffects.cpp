@@ -2001,13 +2001,31 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
                     m_caster->CastSpell(m_caster, spellShrink, true);
                     return;
                 }
+                case 54577:                                 // Throw U.D.E.D.
+                {
+                    if (!unitTarget || unitTarget->GetTypeId() != TYPEID_UNIT)
+                        return;
+
+                    // Sometimes issues with explosion animation. Unclear why
+                    // but possibly caused by the order of spells.
+
+                    // Permanent Feign Death
+                    unitTarget->CastSpell(unitTarget, 29266, true);
+
+                    // need to despawn later
+                    ((Creature*)unitTarget)->ForcedDespawn(2000);
+
+                    // Mammoth Explosion Spell Spawner
+                    unitTarget->CastSpell(unitTarget, 54581, true, m_CastItem);
+                    return;
+                }
                 case 54171:                                 // Divine Storm
                     {
                         // split between targets
                         int32 bp = damage / m_UniqueTargetInfo.size();
                         m_caster->CastCustomSpell(unitTarget, 54172, &bp, NULL, NULL, true);
                         return;
-                    }
+                }
                 case 55004:                                 // Nitro Boosts
                 {
                     if (!m_CastItem)
@@ -5802,7 +5820,6 @@ void Spell::EffectWeaponDmg(SpellEffectIndex eff_idx)
             }
             break;
         }
-
         case SPELLFAMILY_ROGUE:
         {
             // Mutilate (for each hand)
@@ -6851,6 +6868,29 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
 
                     // Remove aura (Mojo of Rhunok) given at quest accept / gossip
                     unitTarget->RemoveAurasDueToSpell(51967);
+                    return;
+                }
+                case 54581:                                 // Mammoth Explosion Spell Spawner
+                {
+                    if (m_caster->GetTypeId() != TYPEID_UNIT)
+                        return;
+
+                    // Summons misc npc's. They are expected to summon GO from 54625
+                    // but there is no way to get the summoned, to trigger a spell
+                    // cast (workaround can be done with ai script).
+
+                    // Quest - Mammoth Explosion Summon Object
+                    for(int i = 0; i < 2; ++i)
+                        m_caster->CastSpell(m_caster, 54623, true);
+
+                    for(int i = 0; i < 2; ++i)
+                        m_caster->CastSpell(m_caster, 54627, true);
+
+                    for(int i = 0; i < 2; ++i)
+                        m_caster->CastSpell(m_caster, 54628, true);
+
+                    // Summon Main Mammoth Meat
+                    m_caster->CastSpell(m_caster, 57444, true);
                     return;
                 }
                 case 54729:                                 // Winged Steed of the Ebon Blade
@@ -9059,11 +9099,9 @@ void Spell::EffectRedirectThreat(SpellEffectIndex eff_idx)
     if (!unitTarget)
         return;
 
-    // modifiers
-    // Glyph of Vigilance
-    if (m_spellInfo->Id == 59665)
-        if (Aura *glyph = unitTarget->GetDummyAura(63326))
-            damage += (uint32)glyph->GetModifier()->m_amount;
+    if (m_spellInfo->Id == 59665)                           // Vigilance
+        if (Aura *glyph = unitTarget->GetDummyAura(63326))  // Glyph of Vigilance
+            damage += glyph->GetModifier()->m_amount;
 
     m_caster->getHostileRefManager().SetThreatRedirection(unitTarget->GetObjectGuid(), uint32(damage));
 }
