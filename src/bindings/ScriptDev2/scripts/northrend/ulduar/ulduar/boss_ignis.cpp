@@ -183,7 +183,7 @@ struct MANGOS_DLL_DECL boss_ignisAI : public ScriptedAI
         if (m_uiActivateConstructTimer <= uiDiff)
         {
             if (DoCastSpellIfCan(m_creature, SPELL_ACTIVATE_CONSTRUCT) == CAST_OK)
-                m_uiActivateConstructTimer = 15000;
+                m_uiActivateConstructTimer = m_bIsRegularMode ? 40000 : 30000;
         }
         else m_uiActivateConstructTimer -= uiDiff;
 
