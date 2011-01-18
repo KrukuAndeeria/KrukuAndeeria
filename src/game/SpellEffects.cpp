@@ -4817,7 +4817,7 @@ void Spell::EffectPull(SpellEffectIndex eff_idx)
     // this needs proper handling
     // only pulling to caster supported
 
-    if(!unitTarget || unitTarget->IsTaxiFlying())
+    if(!unitTarget || unitTarget->IsTaxiFlying() || !unitTarget->isAlive())
         return;
 
     // Init dest coordinates
