@@ -9266,40 +9266,6 @@ int32 Unit::CalculateBaseSpellDuration(SpellEntry const* spellProto, uint32* per
         *periodicTime = _periodicTime;
     }
 
-    if (duration > 0 && unitPlayer && target == this)
-    {
-        switch(spellProto->SpellFamilyName)
-        {
-            case SPELLFAMILY_DRUID:
-                // Thorns
-                if (spellProto->SpellIconID == 53 && (spellProto->SpellFamilyFlags & UI64LIT(0x0000000000000100)))
-                {
-                    // Glyph of Thorns
-                    if (Aura *aur = GetAura(57862, EFFECT_INDEX_0))
-                        duration += aur->GetModifier()->m_amount * MINUTE * IN_MILLISECONDS;
-                }
-                break;
-            case SPELLFAMILY_PALADIN:
-                // Blessing of Might
-                if (spellProto->SpellIconID == 298 && spellProto->SpellFamilyFlags & UI64LIT(0x0000000000000002))
-                {
-                    // Glyph of Blessing of Might
-                    if (Aura *aur = GetAura(57958, EFFECT_INDEX_0))
-                        duration += aur->GetModifier()->m_amount * MINUTE * IN_MILLISECONDS;
-                }
-                // Blessing of Wisdom
-                else if (spellProto->SpellIconID == 306 && spellProto->SpellFamilyFlags & UI64LIT(0x0000000000010000))
-                {
-                    // Glyph of Blessing of Wisdom
-                    if (Aura *aur = GetAura(57979, EFFECT_INDEX_0))
-                        duration += aur->GetModifier()->m_amount * MINUTE * IN_MILLISECONDS;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
     return duration;
 }
 
@@ -9330,7 +9296,8 @@ uint32 Unit::CalculateSpellDuration(Unit const* caster, uint32 baseDuration, Spe
         switch(spellProto->SpellFamilyName)
         {
             case SPELLFAMILY_DRUID:
-                if (spellProto->SpellFamilyFlags & UI64LIT(0x100))
+                // Thorns
+                if (spellProto->SpellIconID == 53 && (spellProto->SpellFamilyFlags & UI64LIT(0x0000000000000100)))
                 {
                     // Glyph of Thorns
                     if (Aura *aur = GetAura(57862, EFFECT_INDEX_0))
