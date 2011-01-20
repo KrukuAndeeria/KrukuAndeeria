@@ -38,6 +38,8 @@ EndContentData */
 
 #include "precompiled.h"
 #include "escort_ai.h"
+#include "ObjectMgr.h"
+#include "ObjectAccessor.h"
 
 /*######
 ## npc_a_special_surprise
@@ -1159,25 +1161,50 @@ struct MANGOS_DLL_DECL npc_eye_of_acherusAI : public ScriptedAI
 {
     npc_eye_of_acherusAI(Creature *pCreature) : ScriptedAI(pCreature)
     {
-        m_creature->SetActiveObjectState(true);
-        m_creature->SetLevel(55); //else one hack
+        Reset();
+    }
+
+    int32 StartTimer;
+    bool Active;
+    ObjectGuid ownerGuid;
+
+    void Reset()
+    {
+        m_creature->SetDisplayId(26320);
         StartTimer = 2000;
         Active = false;
     }
 
-    uint32 StartTimer;
-    bool Active;
-
-    void Reset(){}
     void AttackStart(Unit *) {}
     void MoveInLineOfSight(Unit*) {}
+
+    void JustDied(Unit* killer)
+    {
+        if(!m_creature || m_creature->GetTypeId() != TYPEID_UNIT)
+            return;
+
+        m_creature->RemoveAurasDueToSpell(530);
+
+        Player* owner= m_creature->GetMap()->GetPlayer(ownerGuid);
+
+        if(!owner)
+            return;
+        owner->SetMover(NULL);
+        owner->RemoveAurasDueToSpell(51923);
+        owner->RemoveAurasDueToSpell(51852);
+        owner->RemoveAurasDueToSpell(51890);
+        
+    }
 
     void MovementInform(uint32 uiType, uint32 uiPointId)
     {
         if (uiType != POINT_MOTION_TYPE && uiPointId == 0)
             return;
 
-            m_creature->MonsterTextEmote("The Eye of Acherus is in your control", m_creature, true);
+            DoScriptText(-1666452, m_creature);
+            m_creature->SetDisplayId(25499);
+// m_creature->SetDisplayId(26320);
+            m_creature->RemoveAurasDueToSpell(51923);
             m_creature->CastSpell(m_creature, 51890, true);
     }
 
@@ -1185,29 +1212,34 @@ struct MANGOS_DLL_DECL npc_eye_of_acherusAI : public ScriptedAI
     {
         if(m_creature->isCharmed())
         {
+            if (ownerGuid.IsEmpty())
+                ownerGuid = m_creature->GetCharmerOrOwner()->GetObjectGuid();
+
             if (StartTimer < uiDiff && !Active)
             {
                 m_creature->CastSpell(m_creature, 70889, true);
                 m_creature->CastSpell(m_creature, 51892, true);
-                char * text = "The Eye of Acherus launches towards its destination";
-                m_creature->MonsterTextEmote(text, m_creature, true);
-                m_creature->SetSpeedRate(MOVE_FLIGHT, 6.4f,true);
-                m_creature->GetMotionMaster()->MovePoint(0, 1750.8276f, -5873.788f, 151.2266f);
+                m_creature->CastSpell(m_creature, 51923, true);
+                m_creature->SetSpeedRate(MOVE_FLIGHT, 4.0f,true);
+                DoScriptText(-1666451, m_creature);
+                m_creature->GetMotionMaster()->MovePoint(0, 1750.8276f, -5873.788f, 147.2266f);
                 Active = true;
             }
-            else StartTimer -= uiDiff;
+            else
+                StartTimer -= uiDiff;
         }
         else
         {
-            m_creature->CleanupsBeforeDelete();
-            m_creature->AddObjectToRemoveList();
+            if (StartTimer < uiDiff)
+            {
+                m_creature->ForcedDespawn();
+                if (Player* owner= m_creature->GetMap()->GetPlayer(ownerGuid))
+                {
+                    owner->RemoveAurasDueToSpell(51852);
+                    owner->RemoveAurasDueToSpell(51923);
+                }
+            }
         }
-    }
-
-    void JustDied(Unit*u)
-    {
-        m_creature->CleanupsBeforeDelete();
-        m_creature->AddObjectToRemoveList();
     }
 };
 
@@ -1215,6 +1247,8 @@ CreatureAI* GetAI_npc_eye_of_acherus(Creature* pCreature)
 {
     return new npc_eye_of_acherusAI(pCreature);
 }
+
+
 
 /*######
 ## Val'kyr Battle-Maiden
