@@ -588,7 +588,7 @@ struct MANGOS_DLL_DECL npc_harnessed_icemaw_matriarchAI : public ScriptedAI
                 {
                     pPlayer->KilledMonsterCredit(KC_ICEMAW_MATRIARCH, m_creature->GetObjectGuid());
                     pPlayer->CompleteQuest(QUEST_THE_LAST_OF_HER_KIND); // hack: kill credit alone doesn't allow turning the quest in :/
-                    pPlayer->ExitVehicle();
+                    //pPlayer->ExitVehicle();
                 }
                 m_creature->ForcedDespawn(1000);
             }
