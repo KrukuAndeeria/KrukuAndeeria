@@ -152,13 +152,15 @@ bool ArenaTeam::AddMember(ObjectGuid playerGuid)
     newmember.wins_season       = 0;
     newmember.wins_week         = 0;
 
-    int32 conf_value = sWorld.getConfig(CONFIG_INT32_ARENA_STARTPERSONALRATING);
-    if (conf_value < 0)                                     // -1 = select by season id
+    int32 conf_value_personal = sWorld.getConfig(CONFIG_INT32_ARENA_STARTPERSONALRATING);
+    int32 conf_value_team = sWorld.getConfig(CONFIG_INT32_ARENA_STARTRATING);
+
+    if (conf_value_personal < 0)                                     // -1 = select by season id
     {
         if (sWorld.getConfig(CONFIG_UINT32_ARENA_SEASON_ID) >= 6)
         {
             if (m_stats.rating < 1000)
-                newmember.personal_rating = uint32(conf_value);
+                newmember.personal_rating = (conf_value_team < 0) ? 0 : uint32(conf_value_team);
             else
                 newmember.personal_rating = 1000;
         }
@@ -168,7 +170,7 @@ bool ArenaTeam::AddMember(ObjectGuid playerGuid)
         }
     }
     else
-        newmember.personal_rating = uint32(conf_value);
+        newmember.personal_rating = uint32(conf_value_personal);
 
     m_members.push_back(newmember);
 
