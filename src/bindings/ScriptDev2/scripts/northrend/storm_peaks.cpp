@@ -525,11 +525,8 @@ enum
     NPC_FREED_PROTO_DRAKE    = 29709,
     KC_BRUNNHILDAR_PRISONER  = 29734,
 
-    EMOTE_FREED_PROTO_DRAKE  = -1999701,
-    POINT_FREED_PROTO_DRAKE  = 1
+    EMOTE_FREED_PROTO_DRAKE  = -1999701
 };
-
-static float freed_proto_drake_point[3] = {7053.52f, -1730.42f, 820.09f};
 
 bool EffectDummy_spell_mob_brunnhildar_prisoner(Unit* pCaster, uint32 uiSpellId, SpellEffectIndex uiEffIndex, Creature* pCreatureTarget)
 {
