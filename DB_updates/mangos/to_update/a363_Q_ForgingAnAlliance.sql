@@ -14,6 +14,10 @@ INSERT INTO creature (id, map, spawnMask, phaseMask, equipment_id, position_x, p
 (30123, 571, 1, 1, 0, 7153.71, -3535.85, 833.682, 5.67107, 0, 50400, 0);
 -- update basic stats for Snorri NPC and vehicle and Njormeld
 UPDATE creature_template SET minlevel = 80, maxlevel = 80, minhealth = 50400, maxhealth = 50400 WHERE entry IN (30123, 30124, 30099);
+-- add spawn of other Njormeld
+DELETE FROM creature WHERE id = 30127;
+INSERT INTO creature (id, map, spawnMask, phaseMask, equipment_id, position_x, position_y, position_z, orientation, spawndist, curhealth, MovementType) VALUES
+(30127, 571, 1, 1, 0, 7210.79, -2639.48, 814.01, 4.91107, 0, 49700, 0);
 
 -- Force Reaction for Sons of Hodir
 DELETE FROM spell_area WHERE spell = 55953;
