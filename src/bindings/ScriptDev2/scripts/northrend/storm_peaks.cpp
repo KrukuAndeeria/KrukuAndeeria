@@ -561,6 +561,46 @@ bool EffectDummy_spell_mob_brunnhildar_prisoner(Unit* pCaster, uint32 uiSpellId,
     return false;
 }
 
+/*#####
+## npc_harnessed_icemaw_matriarch
+#####*/
+
+enum
+{
+    NPC_ASTRID                 = 29839,
+    KC_ICEMAW_MATRIARCH        = 29563,
+    QUEST_THE_LAST_OF_HER_KIND = 12983
+};
+
+struct MANGOS_DLL_DECL npc_harnessed_icemaw_matriarchAI : public ScriptedAI
+{
+    npc_harnessed_icemaw_matriarchAI(Creature*pCreature) : ScriptedAI(pCreature){}
+    void Reset(){}
+    void UpdateAI(const uint32 uiDiff){}
+
+    void MoveInLineOfSight(Unit *pWho)
+    {
+        if (pWho->GetEntry() == NPC_ASTRID)
+        {
+            if (pWho->GetDistance2d(m_creature) < 30.0f)
+            {
+                if (Player *pPlayer = m_creature->GetMap()->GetPlayer(m_creature->GetCreatorGuid()))
+                {
+                    pPlayer->KilledMonsterCredit(KC_ICEMAW_MATRIARCH, m_creature->GetObjectGuid());
+                    pPlayer->CompleteQuest(QUEST_THE_LAST_OF_HER_KIND); // hack: kill credit alone doesn't allow turning the quest in :/
+                    pPlayer->ExitVehicle();
+                }
+                m_creature->ForcedDespawn(1000);
+            }
+        }
+    }
+};
+
+CreatureAI* GetAI_npc_harnessed_icemaw_matriarch(Creature* pCreature)
+{
+    return new npc_harnessed_icemaw_matriarchAI(pCreature);
+}
+
 void AddSC_storm_peaks()
 {
     Script* newscript;
@@ -614,5 +654,10 @@ void AddSC_storm_peaks()
     newscript = new Script;
     newscript->Name = "mob_brunnhildar_prisoner";
     newscript->pEffectDummyNPC = &EffectDummy_spell_mob_brunnhildar_prisoner;
+    newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->Name = "npc_harnessed_icemaw_matriarch";
+    newscript->GetAI = &GetAI_npc_harnessed_icemaw_matriarch;
     newscript->RegisterSelf();
 }
