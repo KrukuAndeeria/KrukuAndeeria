@@ -131,7 +131,14 @@ struct MANGOS_DLL_DECL boss_ignisAI : public ScriptedAI
         DoScriptText(SAY_DEATH, m_creature);
 
         if (m_pInstance)
+        {
             m_pInstance->SetData(TYPE_IGNIS, DONE);
+            // destroy constructs
+            for (std::list<uint64>::iterator i = m_pInstance->m_lIronConstructsGUIDs.begin(); i != m_pInstance->m_lIronConstructsGUIDs.end(); i++)
+                if (Creature *pTmp = m_pInstance->instance->GetCreature(*i))
+                    if (pTmp->isAlive())
+                        pTmp->DealDamage(pTmp, pTmp->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NONE, NULL, false);
+        }
     }
 
     void JustSummoned(Creature* pCreature)
