@@ -14,7 +14,7 @@ INSERT INTO creature_template_addon VALUES
 
 DELETE FROM vehicle_data WHERE entry = 173;
 INSERT INTO vehicle_data VALUES
-(173, 0x02|0x04|0x08, 6603, 0, 0, 15971, 54458, 54460, 0, 0, 0, 0, 0);
+(173, 0x02|0x04|0x08, 6603, 0, 0, 54459, 54458, 54460, 0, 0, 0, 0, 0);
 
 DELETE FROM vehicle_seat_data WHERE seat = 2069;
 INSERT INTO vehicle_seat_data VALUES
