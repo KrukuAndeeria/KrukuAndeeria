@@ -1,7 +1,7 @@
 -- Quest: The Warm Up
 UPDATE creature_template SET MovementType = 0, AIName = "EventAI" WHERE entry = 29352;
 UPDATE creature SET MovementType = 0, spawndist = 0 WHERE id = 29352;
-UPDATE creature_template SET minlevel = 80, maxlevel = 80, minhealth = 37800, maxhealth = 37800, faction_A = 2109, faction_H = 2109 WHERE entry = 29918;
+UPDATE creature_template SET minlevel = 80, maxlevel = 80, minhealth = 37800, maxhealth = 37800, faction_A = 14, faction_H = 14 WHERE entry = 29918;
 
 DELETE FROM creature_ai_scripts WHERE creature_id = 29352;
 INSERT INTO creature_ai_scripts VALUES
