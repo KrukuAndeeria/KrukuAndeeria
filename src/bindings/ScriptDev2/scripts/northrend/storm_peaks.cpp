@@ -512,6 +512,55 @@ CreatureAI* GetAI_npc_overseer_narvir(Creature* pCreature)
     return new npc_overseer_narvir (pCreature);
 }
 
+/*#####
+## mob_brunnhildar_prisoner
+#####*/
+
+enum
+{
+    SPELL_ICE_SHARD          = 55046,
+    SPELL_ICE_SHARD_IMPACT   = 55047,
+    SPELL_ICY_IMPRISONMENT   = 54894,
+    NPC_BRUNNHILDAR_PRISONER = 29639,
+    NPC_FREED_PROTO_DRAKE    = 29709,
+    KC_BRUNNHILDAR_PRISONER  = 29734,
+
+    EMOTE_FREED_PROTO_DRAKE  = -1999701,
+    POINT_FREED_PROTO_DRAKE  = 1
+};
+
+static float freed_proto_drake_point[3] = {7053.52f, -1730.42f, 820.09f};
+
+bool EffectDummy_spell_mob_brunnhildar_prisoner(Unit* pCaster, uint32 uiSpellId, SpellEffectIndex uiEffIndex, Creature* pCreatureTarget)
+{
+    if (!pCreatureTarget || !pCaster)
+        return false;
+
+    if (uiSpellId == SPELL_ICE_SHARD && uiEffIndex == EFFECT_INDEX_0 && pCreatureTarget->GetEntry() == NPC_BRUNNHILDAR_PRISONER && pCreatureTarget->HasAura(SPELL_ICY_IMPRISONMENT, EFFECT_INDEX_0))
+    {
+        if (Player *pPlayer = pCaster->GetMap()->GetPlayer(pCaster->GetCreatorGuid()))
+        {
+            pPlayer->KilledMonsterCredit(KC_BRUNNHILDAR_PRISONER, pCreatureTarget->GetObjectGuid());
+            pCreatureTarget->RemoveAurasDueToSpell(SPELL_ICY_IMPRISONMENT);
+            pCreatureTarget->CastSpell(pCreatureTarget, SPELL_ICE_SHARD_IMPACT, true);
+            pCreatureTarget->CastSpell(pCreatureTarget, SPELL_DESPAWN_SELF, true);
+
+            if (roll_chance_i(50))
+            {
+                if (pCaster->GetEntry() == NPC_FREED_PROTO_DRAKE)
+                {
+                    DoScriptText(EMOTE_FREED_PROTO_DRAKE, pCaster, pPlayer);
+                    pPlayer->KilledMonsterCredit(NPC_FREED_PROTO_DRAKE, pCaster->GetObjectGuid());
+                    //pPlayer->ExitVehicle();
+                    pCaster->CastSpell(pCreatureTarget, SPELL_DESPAWN_SELF, true);
+                }
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 void AddSC_storm_peaks()
 {
     Script* newscript;
@@ -560,5 +609,10 @@ void AddSC_storm_peaks()
     newscript = new Script;
     newscript->Name = "npc_overseer_narvir";
     newscript->GetAI = &GetAI_npc_overseer_narvir;
+    newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->Name = "mob_brunnhildar_prisoner";
+    newscript->pEffectDummyNPC = &EffectDummy_spell_mob_brunnhildar_prisoner;
     newscript->RegisterSelf();
 }
