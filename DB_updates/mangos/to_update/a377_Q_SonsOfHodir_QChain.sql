@@ -55,7 +55,7 @@ INSERT INTO `spell_area` VALUES
 (55012, 4455, 12841,0,0,0,0,2,1),
 (72914, 4455, 12841,0,0,0,0,2,1),
 -- Pit of The Fang - disguise only: problems with faction
-(72914, , 12841,0,0,0,0,2,1);
+(72914, 4535, 12841,0,0,0,0,2,1);
 
 /* restored propper templates from UDB390 f*cked by previous commits
 -- observed that if Lynx3d vmaps are disabled in Northrend
@@ -286,7 +286,7 @@ UPDATE creature SET phaseMask = phaseMask|2 WHERE id = 29504;
 -- Forging An Alliance
 -- ******************
 -- Son of Hodir instead of King Jokkum was spawned? also phases again
-UPDATE creature SET id = 30105, phaseMask WHERE guid = 106321;
+UPDATE creature SET id = 30105, phaseMask = 3 WHERE guid = 106321;
 
 -- add spawn for Njormel
 DELETE FROM creature WHERE id = 30099;
