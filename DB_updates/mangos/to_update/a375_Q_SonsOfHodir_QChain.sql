@@ -100,7 +100,7 @@ INSERT INTO vehicle_seat_data VALUES
 -- The Last Of Her Kind
 -- ******************
 -- bug: when vehicle leaves the phased area, then player and veh have different phaseMasks and things get messy
-UPDATE creature_template SET IconName = "vehichleCursor", minhealth = 12600, maxhealth = 12600 WHERE entry = 29563;
+/*UPDATE creature_template SET IconName = "vehichleCursor", minhealth = 12600, maxhealth = 12600 WHERE entry = 29563;
 UPDATE creature_template SET minhealth = 12600, maxhealth = 12600, MovementType = 2, ScriptName = "npc_harnessed_icemaw_matriarch" WHERE entry = 30468;
 
 DELETE FROM creature_template_addon WHERE entry = 30468;
@@ -142,10 +142,13 @@ INSERT INTO creature_movement_template VALUES
 (30468, 20, 6951.21, -1725.76, 820.11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (30468, 21, 6901.21, -1697.76, 820.11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (30468, 22, 6877.21, -1678.76, 820.11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(30468, 23, 6820.48, -1703.76, 820.11, 2000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(30468, 23, 6820.48, -1703.76, 820.11, 2000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);*/
 
 -- phaseMask for vahicle spawner
 UPDATE creature SET phaseMask = 2 WHERE id = 29563;
+
+-- <sigh>
+UPDATE creature_template SET npcflag = npcflag|1 WHERE entry = 29563;
 
 -- ******************
 -- The Warm Up
