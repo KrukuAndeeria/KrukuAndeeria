@@ -732,7 +732,7 @@ struct MANGOS_DLL_DECL npc_artruisAI : public ScriptedAI
     {
         if(m_creature->isInCombat() && !m_creature->getVictim())
         {
-            EnterEvadeMode();
+            Reset();
         }
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
@@ -860,6 +860,10 @@ struct MANGOS_DLL_DECL npc_jaloot_zepikAI : public ScriptedAI
     }
     void UpdateAI(const uint32 uiDiff)
     {
+		if(!m_creature->getVictim())
+		{
+			Reset();
+		}
         if(m_creature->isInCombat())
         {
             if (m_uiCheckArtruisTimer <= uiDiff)     
@@ -867,7 +871,7 @@ struct MANGOS_DLL_DECL npc_jaloot_zepikAI : public ScriptedAI
              if(Creature* pArtruis = GetClosestCreatureWithEntry(m_creature, NPC_ARTRUIS_HEARTLESS, 30.0f))
              {
                  if(!pArtruis->isAlive())
-                     EnterEvadeMode();
+                     Reset();
              }
                                 
         } else m_uiCheckArtruisTimer -= uiDiff;
@@ -968,7 +972,17 @@ struct MANGOS_DLL_DECL npc_jaloot_zepikAI : public ScriptedAI
 
     void JustReachedHome()
     {
-        m_creature->CastSpell(m_creature, SPELL_TOMB_OF_HEARTLESS,false);  
+        m_creature->CastSpell(m_creature, SPELL_TOMB_OF_HEARTLESS,false); 
+		if(Creature* pArtruis = GetClosestCreatureWithEntry(m_creature, NPC_ARTRUIS_HEARTLESS, 90.0f))
+        {
+			if(pArtruis->isAlive())
+			{
+				if (npc_artruisAI* pArtruisAI = dynamic_cast<npc_artruisAI*>(pArtruis->AI()))
+				{
+					pArtruisAI->Reset();
+				}
+			}
+        }
     } 
 
 };
