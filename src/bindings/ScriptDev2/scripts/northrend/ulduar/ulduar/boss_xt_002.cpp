@@ -29,7 +29,7 @@ enum
     //xt yells
     SAY_AGGRO               = -1610030,
     SAY_HEART_OPEN          = -1610031,
-    SAY_HEART_CLOSE	        = -1610032,
+    SAY_HEART_CLOSE         = -1610032,
     SAY_TANTRUM	            = -1610033,
     SAY_SLAY_01             = -1610034,
     SAY_SLAY_02             = -1610035,
