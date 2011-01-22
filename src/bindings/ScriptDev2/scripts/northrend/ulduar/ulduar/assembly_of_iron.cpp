@@ -455,8 +455,8 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
         if (m_uiWhirl_Timer < uiDiff && !m_bIsTendrils && m_bHasSupercharge1)
         {
             DoScriptText(SAY_BRUNDIR_WHIRL, m_creature);
-            if (DoCastSpellIfCan(m_creature, m_bIsRegularMode ? SPELL_LIGHTNING_WHIRL : SPELL_LIGHTNING_WHIRL_H) == CAST_OK)
-                m_uiWhirl_Timer = 15000;
+            DoCast(m_creature, m_bIsRegularMode ? SPELL_LIGHTNING_WHIRL : SPELL_LIGHTNING_WHIRL_H);
+            m_uiWhirl_Timer = 15000;
         }
         else m_uiWhirl_Timer -= uiDiff;
 
