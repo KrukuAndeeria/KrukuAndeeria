@@ -56,23 +56,7 @@ DatabaseMysql::DatabaseMysql()
 
 DatabaseMysql::~DatabaseMysql()
 {
-    if (m_delayThread)
-        HaltDelayThread();
-
-    //destroy SqlConnection objects
-    if(m_pQueryConnections.size())
-    {
-        for (int i  = 0; i < m_pQueryConnections.size(); ++i)
-            delete m_pQueryConnections[i];
-
-        m_pQueryConnections.clear();
-    }
-
-    if(m_pAsyncConn)
-    {
-        delete m_pAsyncConn;
-        m_pAsyncConn = NULL;
-    }
+    StopServer();
 
     //Free Mysql library pointers for last ~DB
     if(--db_count == 0)
@@ -168,12 +152,12 @@ bool MySQLConnection::Initialize(const char *infoString)
         // autocommit is turned of during it.
         // Setting it to on makes atomic updates work
         // ---
-        // if you want atomic updates to work - USE TRANSACTIONS!!!
-        // no need to mess up with autocommit mode which might degrade server performance!
-        if (!mysql_autocommit(mMysql, 0))
-            DETAIL_LOG("AUTOCOMMIT SUCCESSFULLY SET TO 0");
+        // LEAVE 'AUTOCOMMIT' MODE ALWAYS ENABLED!!!
+        // W/O IT EVEN 'SELECT' QUERIES WOULD REQUIRE TO BE WRAPPED INTO 'START TRANSACTION'<>'COMMIT' CLAUSES!!!
+        if (!mysql_autocommit(mMysql, 1))
+            DETAIL_LOG("AUTOCOMMIT SUCCESSFULLY SET TO 1");
         else
-            DETAIL_LOG("AUTOCOMMIT NOT SET TO 0");
+            DETAIL_LOG("AUTOCOMMIT NOT SET TO 1");
         /*-------------------------------------*/
 
         // set connection properties to UTF8 to properly handle locales for different

@@ -1888,10 +1888,26 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
                     (spellInfo_2->Id == 65684 && spellInfo_1->Id == 65686))
                     return true;
 
+                    // Male Shadowy Disguise
+                    if ((spellInfo_1->Id == 32756 && spellInfo_2->Id == 38080) ||
+                        (spellInfo_2->Id == 32756 && spellInfo_1->Id == 38080))
+                         return false;
+
+                    // Female Shadowy Disguise
+                    if ((spellInfo_1->Id == 32756 && spellInfo_2->Id == 38081) ||
+                        (spellInfo_2->Id == 32756 && spellInfo_1->Id == 38081))
+                         return false;
+
+                    // Cool Down (See PeriodicAuraTick())
+                    if ((spellInfo_1->Id == 52441 && spellInfo_2->Id == 52443) ||
+                        (spellInfo_2->Id == 52441 && spellInfo_1->Id == 52443))
+                        return false;
+
                 //Potent Fungus and Mini must remove each other (Amanitar encounter, Ahn'kahet)
                 if ((spellInfo_1->Id == 57055 && spellInfo_2->Id == 56648) ||
                     (spellInfo_2->Id == 57055 && spellInfo_1->Id == 56648))
                     return true;
+
 
                 // Spell Grow and Poison Aura (Ahn'Kahet - Amanitars mashrooms)
                 if ((spellInfo_1->Id == 62559 && spellInfo_2->Id == 56741) ||
