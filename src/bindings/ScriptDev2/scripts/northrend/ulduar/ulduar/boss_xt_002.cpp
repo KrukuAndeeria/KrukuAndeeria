@@ -252,8 +252,8 @@ struct MANGOS_DLL_DECL mob_boombotAI : public ScriptedAI
     void Reset()
     {
         m_uiCheckTimer = 1000;
-        m_creature->SetSpeedRate(MOVE_WALK, 1.0f);
-        m_creature->SetSpeedRate(MOVE_RUN, 1.0f);
+        m_creature->SetSpeedRate(MOVE_WALK, 0.5f);
+        m_creature->SetSpeedRate(MOVE_RUN, 0.5f);
     }
 
     void DamageTaken(Unit* pDoneBy, uint32& uiDamage)
@@ -311,8 +311,6 @@ struct MANGOS_DLL_DECL mob_scrap_botAI : public ScriptedAI
     void Reset()
     {
         m_uiCheckTimer = 1000;
-        m_creature->SetSpeedRate(MOVE_WALK, 3.0f);
-        m_creature->SetSpeedRate(MOVE_RUN, 3.0f);
     }
     void MoveInLineOfSight(Unit* pWho){}
     void AttackStart(Unit *pWho){}
