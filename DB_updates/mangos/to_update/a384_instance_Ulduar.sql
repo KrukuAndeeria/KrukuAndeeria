@@ -1,5 +1,8 @@
 -- Instance Ulduar
 
+-- teleporter
+UPDATE gameobject_template SET ScriptName = "go_ulduar_teleporter" WHERE entry = 194569;
+
 -- ****** Ignis the Furnace Master ******
 UPDATE `creature_template` SET `ScriptName` = "boss_ignis" WHERE `entry` = 33118;
 UPDATE `creature_template` SET lootid = entry, `mechanic_immune_mask` = 617299839 WHERE entry IN (33118, 33190);

@@ -1,5 +1,18 @@
 -- Instance Ulduar - script_texts
 
+-- teleporters gossip
+DELETE FROM `gossip_texts` WHERE `entry` BETWEEN -3603008 AND -3603000;
+INSERT INTO `gossip_texts` (`entry`, `content_default`, `comment`) VALUES
+(-3603000, "Expedition Base Camp", "Ulduar teleporter text 1"),
+(-3603001, "Formation Grounds", "Ulduar teleporter text 2"),
+(-3603002, "Colossal Forge", "Ulduar teleporter text 3"),
+(-3603003, "Scrapyard", "Ulduar teleporter text 4"),
+(-3603004, "Antechamber of Ulduar", "Ulduar teleporter text 5"),
+(-3603005, "Shattered Walkway", "Ulduar teleporter text 6"),
+(-3603006, "Conservatory of Life", "Ulduar teleporter text 7"),
+(-3603007, "Spark of Imagination", "Ulduar teleporter text 8"),
+(-3603008, "Prison of Yogg-Saron", "Ulduar teleporter text 9");
+
 -- Ignis the Furnace Master
 DELETE FROM `script_texts` WHERE `entry` BETWEEN -1610029 AND -1610020;
 INSERT INTO `script_texts` VALUES
