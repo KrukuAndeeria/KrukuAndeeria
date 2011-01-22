@@ -604,7 +604,7 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
         break;
     case TYPE_XT002:
         m_auiEncounter[3] = uiData;
-        if (uiData == DONE || uiData == FAIL)
+        if (uiData == DONE)
             OpenDoor(m_uiXT002GateGUID);
         else if (uiData == IN_PROGRESS)
             CloseDoor(m_uiXT002GateGUID);
@@ -616,7 +616,10 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
             OpenDoor(m_uiIronCouncilDoorGUID);
             OpenDoor(m_uiArchivumDoorGUID);
             CheckIronCouncil();        // used for a hacky achiev, remove for revision!
-        } else if (uiData == IN_PROGRESS)
+        }
+        else if (uiData == FAIL)
+            OpenDoor(m_uiIronCouncilDoorGUID);
+        else if (uiData == IN_PROGRESS)
             CloseDoor(m_uiIronCouncilDoorGUID);
         break;
     case TYPE_KOLOGARN:
