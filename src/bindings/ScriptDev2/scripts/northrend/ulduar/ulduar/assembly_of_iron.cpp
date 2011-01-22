@@ -387,14 +387,20 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
 
     void Aggro(Unit* pWho)
     {
+        bool bCanSayAggro = true;
+
         if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_STEELBREAKER)))
         {
-            if (pTemp->isAlive())
+            if (pTemp->isInCombat())
+                bCanSayAggro = false;
+            else if (pTemp->isAlive())
                 pTemp->SetInCombatWithZone();
         }
         if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_MOLGEIM)))
         {
-            if (pTemp->isAlive())
+            if (pTemp->isInCombat())
+                bCanSayAggro = false;
+            else if (pTemp->isAlive())
                 pTemp->SetInCombatWithZone();
         }
         if (m_pInstance)
@@ -403,7 +409,8 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
                 m_pInstance->SetData(TYPE_ASSEMBLY, IN_PROGRESS);
         }
 
-        DoScriptText(SAY_BRUNDIR_AGGRO, m_creature);
+        if (bCanSayAggro)
+            DoScriptText(SAY_BRUNDIR_AGGRO, m_creature);
     }
 
     void JustReachedHome()
@@ -454,6 +461,7 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
         // level 2 spells
         if (m_uiWhirl_Timer < uiDiff && !m_bIsTendrils && m_bHasSupercharge1)
         {
+            m_creature->CastStop();
             DoScriptText(SAY_BRUNDIR_WHIRL, m_creature);
             DoCast(m_creature, m_bIsRegularMode ? SPELL_LIGHTNING_WHIRL : SPELL_LIGHTNING_WHIRL_H);
             m_uiWhirl_Timer = 15000;
@@ -466,17 +474,16 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
         {
             if (!m_bIsTendrils)
             {
-                if (DoCastSpellIfCan(m_creature, LIGHTNING_TENDRILS_VISUAL) == CAST_OK)
-                {
-                    DoScriptText(SAY_BRUNDIR_FLY, m_creature);
-                    if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
-                        m_creature->AI()->AttackStart(pTarget);
-                    m_bIsTendrils = true;
-                    m_creature->SetSpeedRate(MOVE_RUN, 0.8f);
-                    m_uiTendrils_start_Timer = 3000;
-                    m_uiTendrils_end_Timer = 34000;
-                    m_uiTendrils_Change = 5000;
-                }
+                m_creature->CastStop();
+                DoCast(m_creature, LIGHTNING_TENDRILS_VISUAL);
+                DoScriptText(SAY_BRUNDIR_FLY, m_creature);
+                if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+                    m_creature->AI()->AttackStart(pTarget);
+                m_bIsTendrils = true;
+                m_creature->SetSpeedRate(MOVE_RUN, 0.8f);
+                m_uiTendrils_start_Timer = 3000;
+                m_uiTendrils_end_Timer = 34000;
+                m_uiTendrils_Change = 5000;
             }
             else
             {
@@ -720,14 +727,20 @@ struct MANGOS_DLL_DECL boss_molgeimAI : public ScriptedAI
 
     void Aggro(Unit* pWho)
     {
+        bool bCanSayAggro = true;
+
         if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_STEELBREAKER)))
         {
-            if (pTemp->isAlive())
+            if (pTemp->isInCombat())
+                bCanSayAggro = false;
+            else if (pTemp->isAlive())
                 pTemp->SetInCombatWithZone();
         }
         if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_BRUNDIR)))
         {
-            if (pTemp->isAlive())
+            if (pTemp->isInCombat())
+                bCanSayAggro = false;
+            else if (pTemp->isAlive())
                 pTemp->SetInCombatWithZone();
         }
         if (m_pInstance)
@@ -736,7 +749,8 @@ struct MANGOS_DLL_DECL boss_molgeimAI : public ScriptedAI
                 m_pInstance->SetData(TYPE_ASSEMBLY, IN_PROGRESS);
         }
 
-        DoScriptText(SAY_MOLGEIM_AGGRO, m_creature);
+        if (bCanSayAggro)
+            DoScriptText(SAY_MOLGEIM_AGGRO, m_creature);
     }
 
     void JustReachedHome()
@@ -1044,14 +1058,20 @@ struct MANGOS_DLL_DECL boss_steelbreakerAI : public ScriptedAI
 
     void Aggro(Unit* pWho)
     {
+        bool bCanSayAggro = true;
+
         if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_MOLGEIM)))
         {
-            if (pTemp->isAlive())
+            if (pTemp->isInCombat())
+                bCanSayAggro = false;
+            else if (pTemp->isAlive())
                 pTemp->SetInCombatWithZone();
         }
         if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_BRUNDIR)))
         {
-            if (pTemp->isAlive())
+            if (pTemp->isInCombat())
+                bCanSayAggro = false;
+            else if (pTemp->isAlive())
                 pTemp->SetInCombatWithZone();
         }
 
@@ -1063,7 +1083,8 @@ struct MANGOS_DLL_DECL boss_steelbreakerAI : public ScriptedAI
                 m_pInstance->SetData(TYPE_ASSEMBLY, IN_PROGRESS);
         }
 
-        DoScriptText(SAY_STEEL_AGGRO, m_creature);
+        if (bCanSayAggro)
+            DoScriptText(SAY_STEEL_AGGRO, m_creature);
     }
 
     void JustReachedHome()
