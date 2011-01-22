@@ -604,7 +604,7 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
         break;
     case TYPE_XT002:
         m_auiEncounter[3] = uiData;
-        if (uiData == DONE)
+        if (uiData == DONE || uiData == FAIL)
             OpenDoor(m_uiXT002GateGUID);
         else if (uiData == IN_PROGRESS)
             CloseDoor(m_uiXT002GateGUID);

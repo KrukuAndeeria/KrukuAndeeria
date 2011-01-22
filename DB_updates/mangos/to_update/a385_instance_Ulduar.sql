@@ -177,3 +177,13 @@ INSERT INTO `reference_loot_template` VALUES
 (33886, 45247, 0, 1, 1, 1, 0, 0, 0),
 (33886, 45255, 0, 1, 1, 1, 0, 0, 0),
 (33886, 45256, 0, 1, 1, 1, 0, 0, 0);
+
+-- Iron Council (Assembly of Iron)
+-- Iron council
+UPDATE creature_template SET ScriptName='boss_brundir' WHERE entry = 32857;
+UPDATE creature_template SET ScriptName='boss_molgeim' WHERE entry = 32927;
+UPDATE creature_template SET ScriptName='boss_steelbreaker' WHERE entry = 32867;
+UPDATE creature_template SET ScriptName = 'mob_rune_of_power' WHERE entry = 33705;
+UPDATE creature_template SET ScriptName = 'mob_rune_of_summoning' WHERE entry = 33051;
+UPDATE creature_template SET ScriptName = 'mob_ulduar_lightning_elemental' WHERE entry = 32958;
+UPDATE creature_template SET mechanic_immune_mask = 619397115 WHERE entry IN (32857, 33694, 32927, 33692, 32867, 33693);
