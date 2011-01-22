@@ -302,7 +302,7 @@ UPDATE creature_template SET minlevel = 80, maxlevel = 80, minhealth = 50400, ma
 -- add spawn of other Njormeld
 DELETE FROM creature WHERE id = 30127;
 INSERT INTO creature (id, map, spawnMask, phaseMask, equipment_id, position_x, position_y, position_z, orientation, spawndist, curhealth, MovementType) VALUES
-(30127, 571, 1, 3, 0, 7210.79, -2639.48, 814.01, 4.91107, 0, 49700, 0);
+(30127, 571, 1, 4, 0, 7210.79, -2639.48, 814.01, 4.91107, 0, 49700, 0);
 
 -- Force Reaction for Sons of Hodir
 DELETE FROM spell_area WHERE spell = 55953;
