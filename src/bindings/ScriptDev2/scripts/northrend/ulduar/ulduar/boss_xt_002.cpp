@@ -28,26 +28,26 @@ enum
 {
     //xt yells
     SAY_AGGRO               = -1610030,
-    SAY_HEART_OPEN			= -1610031,
+    SAY_HEART_OPEN          = -1610031,
     SAY_HEART_CLOSE	        = -1610032,
     SAY_TANTRUM	            = -1610033,
-    SAY_SLAY_01				= -1610034,
-    SAY_SLAY_02				= -1610035,
-    SAY_BERSERK				= -1610036,
+    SAY_SLAY_01             = -1610034,
+    SAY_SLAY_02             = -1610035,
+    SAY_BERSERK             = -1610036,
     SAY_DEATH               = -1610037,
-    SAY_ADDS				= -1610038,
+    SAY_ADDS                = -1610038,
     EMOTE_HEART             = -1610039,
     EMOTE_REPAIR            = -1610040,
 
     //xt-002
     SPELL_TANTRUM           = 62776,
     SPELL_LIGHT_BOMB_TRIG   = 65598,
-    SPELL_LIGHT_BOMB		= 63018,
-    SPELL_LIGHT_BOMB_H		= 65121,
-    SPELL_GRAVITY_BOMB		= 63024,
-    SPELL_GRAVITY_BOMB_H	= 64234,
-    SPELL_ENRAGE			= 47008,
-    SPELL_STUN				= 3618,
+    SPELL_LIGHT_BOMB        = 63018,
+    SPELL_LIGHT_BOMB_H      = 65121,
+    SPELL_GRAVITY_BOMB      = 63024,
+    SPELL_GRAVITY_BOMB_H    = 64234,
+    SPELL_ENRAGE            = 47008,
+    SPELL_STUN              = 3618,
     SPELL_ENERGY_ORB        = 62790,
 
     // hard mode
@@ -64,24 +64,24 @@ enum
     NPC_LIFESPARK           = 34004,
 
     //heart of the deconstructor
-    SPELL_EXPOSED_HEART		= 63849,
+    SPELL_EXPOSED_HEART     = 63849,
 
     //XE-321 Boombot
-    SPELL_BOOM				= 62834,
+    SPELL_BOOM              = 62834,
 
     //XM-024 Pummeller
-    SPELL_CLEAVE			= 8374,
-    SPELL_TRAMPLE			= 5568,
-    SPELL_UPPERCUT			= 10966,
+    SPELL_CLEAVE            = 8374,
+    SPELL_TRAMPLE           = 5568,
+    SPELL_UPPERCUT          = 10966,
 
     // ScrapBot
     SPELL_SCRAP_REPAIR      = 62832,
 
     //NPC ids
-    NPC_HEART				= 33329,
-    NPC_SCRAPBOT			= 33343,
-    NPC_BOOMBOT				= 33346,
-    NPC_PUMMELER			= 33344, 
+    NPC_HEART               = 33329,
+    NPC_SCRAPBOT            = 33343,
+    NPC_BOOMBOT             = 33346,
+    NPC_PUMMELER            = 33344, 
 
     // Achievs
     ACHIEV_HEARTBREAKER         = 3058,
