@@ -4497,21 +4497,26 @@ void Aura::HandleModStealth(bool apply, bool Real)
                     target->SetVisibility(VISIBILITY_ON);
             }
 
-            // apply delayed talent bonus remover at last stealth aura remove
             Unit::AuraList const& mDummyAuras = target->GetAurasByType(SPELL_AURA_DUMMY);
             for(Unit::AuraList::const_iterator i = mDummyAuras.begin();i != mDummyAuras.end(); ++i)
             {
                 // Master of Subtlety
                 if ((*i)->GetSpellProto()->SpellIconID == 2114)
                     target->CastSpell(target, 31666, true);
-                // Overkill
-                else if ((*i)->GetId() == 58426 && GetSpellProto()->SpellFamilyFlags & UI64LIT(0x0000000000400000))
+            }
+        }
+        // this part of code didn't execute when player left stealth by using a spell. temp. solution
+        // apply delayed talent bonus remover at last stealth aura remove
+        Unit::AuraList const& mDummyAuras = target->GetAurasByType(SPELL_AURA_DUMMY);
+        for(Unit::AuraList::const_iterator i = mDummyAuras.begin();i != mDummyAuras.end(); ++i)
+        {
+            // Overkill
+            if ((*i)->GetId() == 58426 && GetSpellProto()->SpellFamilyFlags & UI64LIT(0x0000000000400000))
+            {
+                if (Aura* aura = target->GetAura(58427, EFFECT_INDEX_0))
                 {
-                    if (Aura* aura = target->GetAura(58427, EFFECT_INDEX_0))
-                    {
-                        aura->SetAuraMaxDuration(20*IN_MILLISECONDS);
-                        aura->GetHolder()->RefreshHolder();
-                    }
+                    aura->SetAuraMaxDuration(20*IN_MILLISECONDS);
+                    aura->GetHolder()->RefreshHolder();
                 }
             }
         }
