@@ -84,3 +84,19 @@ INSERT INTO `script_texts` VALUES
 (-1603076, "Flesh... such a hindrance.", "","","","","","","","",15676, 1, 0, 0, 'SteelSlay2'),
 (-1603077, "You seek the secrets of Ulduar? Then take them!", "","","","","","","","",15677, 1, 0, 0, 'SteelOverwhelming'),
 (-1603078, "This meeting of the Assembly of Iron is adjourned!", "","","","","","","","",15680, 1, 0, 0, 'SteelBerserk');
+
+-- Kologarn:
+DELETE FROM script_texts WHERE entry BETWEEN -1603137 AND -1603126;
+INSERT INTO script_texts (entry, content_default, content_loc1, content_loc2, content_loc3, content_loc4, content_loc5, content_loc6, content_loc7, content_loc8, sound, type, language, emote, comment) VALUES
+(-1603126, "None shall pass!", "","","","","","","","",15586, 1, 0, 0, 'KologarnAggro'),
+(-1603127, "OBLIVION!", "","","","","","","","",15591, 1, 0, 0, 'Kologarn shockweave'),
+(-1603128, "I will squeeze the life from you!", "","","","","","","","",15592, 1, 0, 0, 'Kologarn grab'),
+(-1603129, "Just a scratch!", "","","","","","","","",15589, 1, 0, 0, 'left arm lost'),
+(-1603130, "Only a flesh wound!", "","","","","","","","",15590, 1, 0, 0, 'right arm lost'),
+(-1603131, "KOL-THARISH!", "","","","","","","","",15587, 1, 0, 0, 'KologarnSlay1'),
+(-1603132, "YOU FAIL!", "","","","","","","","",15588, 1, 0, 0, 'KologarnSlay2'),
+(-1603133, "I am invincible!", "","","","","","","","",15594, 1, 0, 0, 'KologarnBerserk'),
+(-1603134, "Master, they come...", "","","","","","","","",15593, 1, 0, 0, 'Kologarndeath'),
+(-1603135,'The Right Arm has regrown!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_right hand'),
+(-1603136,'The Left Arm has regrown!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_left hand'),
+(-1603137,'Kologarn casts Stone Grip!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_stone grip');

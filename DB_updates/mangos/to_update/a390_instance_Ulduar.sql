@@ -187,3 +187,28 @@ UPDATE creature_template SET ScriptName = 'mob_rune_of_power' WHERE entry = 3370
 UPDATE creature_template SET ScriptName = 'mob_rune_of_summoning' WHERE entry = 33051;
 UPDATE creature_template SET ScriptName = 'mob_ulduar_lightning_elemental' WHERE entry = 32958;
 UPDATE creature_template SET mechanic_immune_mask = 619397115 WHERE entry IN (32857, 33694, 32927, 33692, 32867, 33693);
+
+-- Kologarn
+-- Kologarn
+-- use when can't reach the boss?
+-- UPDATE creature_model_info SET bounding_radius=15, combat_reach=15 WHERE modelid IN (28638, 28822, 28821);
+UPDATE creature_template SET mechanic_immune_mask=617299803, scriptname='boss_kologarn' WHERE entry=32930;
+UPDATE creature_template SET mechanic_immune_mask=652951551, scriptname='boss_right_arm' WHERE entry=32934;
+UPDATE creature_template SET mechanic_immune_mask=652951551, scriptname='boss_left_arm' WHERE entry=32933;
+UPDATE creature_template SET ScriptName = 'mob_ulduar_rubble' WHERE entry IN (33768, 33809, 33908, 33942);
+UPDATE creature_template SET RegenHealth = 1 WHERE entry = 33910;
+UPDATE creature_template SET RegenHealth = 1 WHERE entry = 33911;
+UPDATE creature_template SET ScriptName = "mob_eyebeam_trigger" WHERE entry IN (33802, 33632);
+
+DELETE FROM creature_template_addon WHERE entry = 32934;
+INSERT INTO creature_template_addon VALUES
+(32934, 0, 0, 0, 0, 0, 0, 380, "", "");
+
+DELETE FROM vehicle_data WHERE entry = 380;
+INSERT INTO vehicle_data VALUES (380, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+DELETE FROM vehicle_seat_data WHERE seat IN (3690, 3691, 3692);
+INSERT INTO vehicle_seat_data VALUES
+(3690, 0),
+(3691, 0),
+(3692, 0);
