@@ -739,10 +739,10 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
 
         // Hard modes
     case TYPE_LEVIATHAN_HARD:
-        m_auiHardBoss[0] = uiData;  // todo: add extra loot
+        m_auiHardBoss[0] = uiData;
         break;
     case TYPE_XT002_HARD:
-        m_auiHardBoss[1] = uiData;  // hard mode loot in sql -> hacky way
+        m_auiHardBoss[1] = uiData;
         break;
     case TYPE_HODIR_HARD:
         m_auiHardBoss[4] = uiData;
@@ -750,10 +750,10 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
             DoRespawnGameObject(m_uiHodirRareLootGUID, 30*MINUTE);
         break;
     case TYPE_ASSEMBLY_HARD:
-        m_auiHardBoss[2] = uiData;  // hard mode loot in sql
+        m_auiHardBoss[2] = uiData;
         break;
     case TYPE_FREYA_HARD:
-        m_auiHardBoss[6] = uiData;  // hard mode loot in the script above
+        m_auiHardBoss[6] = uiData;
         break;
     case TYPE_THORIM_HARD:
         m_auiHardBoss[5] = uiData;
@@ -766,10 +766,10 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
             DoRespawnGameObject(m_uiMimironHardLootGUID, 30*MINUTE);
         break;
     case TYPE_VEZAX_HARD:
-        m_auiHardBoss[7] = uiData;  // hard mode loot in sql -> hacky way
+        m_auiHardBoss[7] = uiData;
         break;
     case TYPE_YOGGSARON_HARD:
-        m_auiHardBoss[8] = uiData;  // todo: add extra loot
+        m_auiHardBoss[8] = uiData;
         break;
 
         // Ulduar keepers
@@ -960,12 +960,11 @@ bool instance_ulduar::CheckConditionCriteriaMeet(Player const* source, uint32 ma
 {
     if (map_id != instance->GetId())
         return false;
-    switch (instance_condition_id)
-    {
-       case TYPE_XT002_HARD:
-           break;
-    }
-    return true;
+
+    if (GetData(instance_condition_id) == DONE)
+        return true;
+
+    return false;
 }
 
 uint32 instance_ulduar::GetData(uint32 uiType)
