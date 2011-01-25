@@ -75,6 +75,7 @@ struct MANGOS_DLL_DECL npc_injured_rainspeakerAI : public npc_escortAI
                 {
                     DoScriptText(SAY_END_1, m_creature, pPlayer);
                     // more likely m_creature->player, doesn't seem to work though.
+					pPlayer->AreaExploredOrEventHappens(QUEST_FORTUNATE_MISUNDERSTANDINGS);
                     pPlayer->CastSpell(pPlayer, SPELL_ORACLE_INTRO, true);
                 }
                 break;
