@@ -317,7 +317,7 @@ struct MANGOS_DLL_DECL boss_right_armAI : public ScriptedAI
 			// this needs vehicles!
             for(int i = 0; i < m_uiMaxTargets; i++)
             {
-                if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+                if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, m_bIsRegularMode ? 2 : 4))
                 {
                     DoCast(pTarget, m_bIsRegularMode ? SPELL_STONE_GRIP_GRAB : SPELL_STONE_GRIP_GRAB_H, true);
                     //pTarget->CastSpell(pTarget, m_bIsRegularMode ? SPELL_STONE_GRIP : SPELL_STONE_GRIP_H, false);
@@ -350,6 +350,7 @@ struct MANGOS_DLL_DECL boss_kologarnAI : public ScriptedAI
     ScriptedInstance* m_pInstance;
     bool m_bIsRegularMode;
     bool m_bIsEmerged;
+    uint32 m_uiEmergedTimer;
     uint32 m_uiSpell_Timer;
     uint32 m_uiCheck_Timer;
     uint32 m_uiEyebeam_Timer;
@@ -378,17 +379,21 @@ struct MANGOS_DLL_DECL boss_kologarnAI : public ScriptedAI
     {
         if (!m_bIsEmerged)
         {
-            if (pWho->GetTypeId() == TYPEID_PLAYER)
+            if (pWho->GetTypeId() == TYPEID_PLAYER && !((Player*)pWho)->isGameMaster())
             {
                 if (m_creature->IsWithinDist(pWho, 40.0f, false))
                 {
                     if (m_pInstance)
                     {
+                        Aggro(pWho);
                         m_creature->HandleEmote(EMOTE_ONESHOT_EMERGE);
                         if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_LEFT_ARM)))
                             pTemp->HandleEmote(EMOTE_ONESHOT_EMERGE);
                         if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_RIGHT_ARM)))
                             pTemp->HandleEmote(EMOTE_ONESHOT_EMERGE);
+
+                        DoScriptText(SAY_AGGRO, m_creature);
+                        m_uiEmergedTimer = 3000;
                         m_bIsEmerged = true;
                     }
                 }
@@ -434,8 +439,7 @@ struct MANGOS_DLL_DECL boss_kologarnAI : public ScriptedAI
                     pTemp->SetInCombatWithZone();
             }
         }
-        //aggro yell
-        DoScriptText(SAY_AGGRO, m_creature);
+
         m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
     }
@@ -465,6 +469,22 @@ struct MANGOS_DLL_DECL boss_kologarnAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
+        // emerge
+        if (!m_creature->isInCombat() && m_bIsEmerged)
+        {
+            if (m_uiEmergedTimer <= uiDiff)
+            {
+                m_creature->HandleEmote(EMOTE_STATE_NONE);
+                if (m_pInstance)
+                {
+                    if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_LEFT_ARM)))
+                        pTemp->HandleEmote(EMOTE_STATE_NONE);
+                    if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_RIGHT_ARM)))
+                        pTemp->HandleEmote(EMOTE_STATE_NONE);
+                }
+            }else m_uiEmergedTimer -= uiDiff;
+        }
+
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
@@ -530,8 +550,7 @@ struct MANGOS_DLL_DECL boss_kologarnAI : public ScriptedAI
                 {
                     for(uint8 i = 0; i < 5; i ++)
                     {
-                        lArm->CastSpell(lArm, 63634, true);
-                        /*if(Creature* pRubble = m_creature->SummonCreature(MOB_RUBBLE, LeftArm[0] - urand(0, 5), LeftArm[1] + urand(0, 10), LeftArm[2], 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000))
+                        if(Creature* pRubble = m_creature->SummonCreature(MOB_RUBBLE, LeftArm[0] - urand(0, 5), LeftArm[1] + urand(0, 10), LeftArm[2], 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000))
                         {
                             pRubble->GetMotionMaster()->MovePoint(0, KoloFront[0], KoloFront[1], KoloFront[2]);
 
@@ -541,7 +560,7 @@ struct MANGOS_DLL_DECL boss_kologarnAI : public ScriptedAI
                                 pRubble->AI()->AttackStart(pTarget);
                                 pRubble->SetInCombatWithZone();
                             }
-                        }*/
+                        }
                     }
                     m_bIsLeftDead = true;
                     m_uiRespawnLeftTimer = 47000;
@@ -553,8 +572,7 @@ struct MANGOS_DLL_DECL boss_kologarnAI : public ScriptedAI
                 {
                     for(uint8 i = 0; i < 5; i ++)
                     {
-                        rArm->CastSpell(rArm, 63634, true);
-                        /*if(Creature* pRubble = m_creature->SummonCreature(MOB_RUBBLE, RightArm[0] - urand(0, 5), RightArm[1] + urand(0, 10), RightArm[2], 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000))
+                        if(Creature* pRubble = m_creature->SummonCreature(MOB_RUBBLE, RightArm[0] - urand(0, 5), RightArm[1] + urand(0, 10), RightArm[2], 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000))
                         {
                             pRubble->GetMotionMaster()->MovePoint(0, KoloFront[0], KoloFront[1], KoloFront[2]);
 
@@ -564,7 +582,7 @@ struct MANGOS_DLL_DECL boss_kologarnAI : public ScriptedAI
                                 pRubble->AI()->AttackStart(pTarget);
                                 pRubble->SetInCombatWithZone();
                             }
-                        }*/
+                        }
                     }
                     m_bIsRightDead = true;
                     m_uiRespawnRightTimer = 47000;
