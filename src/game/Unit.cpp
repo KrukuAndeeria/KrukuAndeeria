@@ -2110,6 +2110,14 @@ void Unit::CalculateDamageAbsorbAndResist(Unit *pCaster, SpellSchoolMask schoolM
                         RemainingDamage -= RemainingDamage * currentAbsorb / 100;
                     continue;
                 }
+                // Moonkin Form passive
+                if (spellProto->Id == 69366)
+                {
+                    //reduces all damage taken while Stunned
+                    if (unitflag & UNIT_FLAG_STUNNED)
+                        RemainingDamage -= RemainingDamage * currentAbsorb / 100;
+                    continue;
+                }
                 break;
             }
             case SPELLFAMILY_ROGUE:
@@ -8092,7 +8100,7 @@ void Unit::SetInCombatState(bool PvP, Unit* enemy)
             pCreature->AI()->EnterCombat(enemy);
 
         // Some bosses are set into combat with zone
-        if (GetMap()->IsDungeon() && (pCreature->GetCreatureInfo()->flags_extra & CREATURE_FLAG_EXTRA_AGGRO_ZONE))
+        if (GetMap()->IsDungeon() && (pCreature->GetCreatureInfo()->flags_extra & CREATURE_FLAG_EXTRA_AGGRO_ZONE) && enemy && enemy->IsControlledByPlayer())
             pCreature->SetInCombatWithZone();
 
         if (InstanceData* mapInstance = GetInstanceData())

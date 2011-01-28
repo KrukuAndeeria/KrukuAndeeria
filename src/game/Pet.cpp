@@ -43,7 +43,7 @@ m_declinedname(NULL), m_petModeFlags(PET_MODE_DEFAULT)
 
     if(type == MINI_PET)                                    // always passive
         charmInfo->SetReactState(REACT_PASSIVE);
-    else if(type == PROTECTOR_PET)                          // always defensive 
+    else if(type == PROTECTOR_PET)                          // always defensive
         charmInfo->SetReactState(REACT_DEFENSIVE);
     else if(type == GUARDIAN_PET)                           // always aggressive
         charmInfo->SetReactState(REACT_AGGRESSIVE);
@@ -1970,6 +1970,8 @@ bool Pet::IsPermanentPetFor(Player* owner)
         case SUMMON_PET:
             switch(owner->getClass())
             {
+                // oddly enough, Mage's Water Elemental is still treated as temporary pet with Glyph of Eternal Water
+                // i.e. does not unsummon at mounting, gets dismissed at teleport etc.
                 case CLASS_WARLOCK:
                     return GetCreatureInfo()->type == CREATURE_TYPE_DEMON;
                 case CLASS_DEATH_KNIGHT:
