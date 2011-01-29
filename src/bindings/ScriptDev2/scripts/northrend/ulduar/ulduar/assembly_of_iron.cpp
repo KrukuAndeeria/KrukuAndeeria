@@ -119,6 +119,7 @@ struct MANGOS_DLL_DECL mob_rune_of_powerAI : public ScriptedAI
     void Reset()
     {
         m_uiDeath_Timer = 60000;
+        m_creature->setFaction(35);
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         DoCast(m_creature,  AURA_RUNE_OF_POWER);
@@ -213,9 +214,11 @@ struct MANGOS_DLL_DECL mob_rune_of_summoningAI : public ScriptedAI
         m_uiDeath_Timer     = 0;
         m_uiSummon_Timer    = 5000;
         m_uiSummonNum       = 0;
+        m_creature->setFaction(35);
+        m_creature->SetInCombatWithZone();
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-        DoCast(m_creature,  AURA_RUNE_OF_SUMMONING);
+        DoCast(m_creature,  AURA_RUNE_OF_SUMMONING, true);
     }
 
     void JustSummoned(Creature* pSummoned)
@@ -311,29 +314,6 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
         }
     }
 
-    void OnYourSide()
-    {
-        /* hacky way to complete achievements; use only if you have this function
-        Map* pMap = m_creature->GetMap();
-        AchievementEntry const *AchievYourSide = GetAchievementStore()->LookupEntry(m_bIsRegularMode ? ACHIEV_ON_YOUR_SIDE : ACHIEV_ON_YOUR_SIDE_H);
-        if(AchievYourSide && pMap)
-        {
-            Map::PlayerList const &lPlayers = pMap->GetPlayers();
-            if (!lPlayers.isEmpty())
-            {
-                for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
-                {
-                    if (Player* pPlayer = itr->getSource())
-                    {
-                        if(pPlayer->HasAura(SPELL_IRON_BOOT_AURA, EFFECT_INDEX_0))
-                            pPlayer->CompletedAchievement(AchievYourSide);
-                    }
-                }
-            }
-        }
-        */
-    }
-
     void JustDied(Unit* pKiller)
     {
         m_creature->RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
@@ -354,13 +334,6 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
                             m_pInstance->SetData(TYPE_ASSEMBLY, DONE);
                             // only the current one has loot, because loot modes are implemented in sql
                             m_creature->SetFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
-
-                            // I'm on your side
-                            OnYourSide();
-
-                            // ChooseBrundir
-                            // hacky way to complete achievements; use only if you have this function
-                            // m_pInstance->DoCompleteAchievement(m_bIsRegularMode ? ACHIEV_CHOOSE_BRUNDIR : ACHIEV_CHOOSE_BRUNDIR_H);
                         }
                     }
                 }
@@ -445,9 +418,20 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
         // level 1 spells
         if (m_uiChain_Lightning_Timer < uiDiff && !m_bIsTendrils)
         {
-            if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
-                if (DoCastSpellIfCan(target, m_bIsRegularMode ? SPELL_CHAIN_LIGHTNING : SPELL_CHAIN_LIGHTNING_H) == CAST_OK)
-                    m_uiChain_Lightning_Timer = 2000;
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+                if (DoCastSpellIfCan(pTarget, m_bIsRegularMode ? SPELL_CHAIN_LIGHTNING : SPELL_CHAIN_LIGHTNING_H) == CAST_OK)
+                {
+                    if (roll_chance_i(30))
+                    {
+                        m_uiChain_Lightning_Timer = 5000;
+                        SetCombatMovement(true);
+                    }
+                    else
+                    {
+                        m_uiChain_Lightning_Timer = 2100;
+                        SetCombatMovement(false);
+                    }
+                }
         }
         else m_uiChain_Lightning_Timer -= uiDiff;
 
@@ -461,10 +445,16 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
         // level 2 spells
         if (m_uiWhirl_Timer < uiDiff && !m_bIsTendrils && m_bHasSupercharge1)
         {
-            m_creature->CastStop();
-            DoScriptText(SAY_BRUNDIR_WHIRL, m_creature);
-            DoCast(m_creature, m_bIsRegularMode ? SPELL_LIGHTNING_WHIRL : SPELL_LIGHTNING_WHIRL_H);
-            m_uiWhirl_Timer = 15000;
+            // wait until Overload is cast
+            if (m_creature->GetCurrentSpell(CURRENT_CHANNELED_SPELL))
+                m_uiWhirl_Timer = 1000;
+            else
+            {
+                m_creature->CastStop();
+                DoScriptText(SAY_BRUNDIR_WHIRL, m_creature);
+                DoCast(m_creature, m_bIsRegularMode ? SPELL_LIGHTNING_WHIRL : SPELL_LIGHTNING_WHIRL_H);
+                m_uiWhirl_Timer = 15000;
+            }
         }
         else m_uiWhirl_Timer -= uiDiff;
 
@@ -475,20 +465,22 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
             if (!m_bIsTendrils)
             {
                 m_creature->CastStop();
+                SetCombatMovement(false);
                 DoCast(m_creature, LIGHTNING_TENDRILS_VISUAL);
                 DoScriptText(SAY_BRUNDIR_FLY, m_creature);
-                if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
-                    m_creature->AI()->AttackStart(pTarget);
                 m_bIsTendrils = true;
                 m_creature->SetSpeedRate(MOVE_RUN, 0.8f);
                 m_uiTendrils_start_Timer = 3000;
-                m_uiTendrils_end_Timer = 34000;
+                m_uiTendrils_end_Timer = 30000;
                 m_uiTendrils_Change = 5000;
             }
             else
             {
+                SetCombatMovement(true);
                 if (DoCastSpellIfCan(m_creature, m_bIsRegularMode ? SPELL_LIGHTNING_TENDRILS : SPELL_LIGHTNING_TENDRILS_H) == CAST_OK)
                     m_uiTendrils_start_Timer = 90000;
+                if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+                    m_creature->AI()->AttackStart(pTarget);
             }
         }
         else m_uiTendrils_start_Timer -= uiDiff;
@@ -654,29 +646,6 @@ struct MANGOS_DLL_DECL boss_molgeimAI : public ScriptedAI
         }
     }
 
-    void OnYourSide()
-    {
-        /* hacky way to complete achievements; use only if you have this function
-        Map* pMap = m_creature->GetMap();
-        AchievementEntry const *AchievYourSide = GetAchievementStore()->LookupEntry(m_bIsRegularMode ? ACHIEV_ON_YOUR_SIDE : ACHIEV_ON_YOUR_SIDE_H);
-        if(AchievYourSide && pMap)
-        {
-            Map::PlayerList const &lPlayers = pMap->GetPlayers();
-            if (!lPlayers.isEmpty())
-            {
-                for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
-                {
-                    if (Player* pPlayer = itr->getSource())
-                    {
-                        if(pPlayer->HasAura(SPELL_IRON_BOOT_AURA, EFFECT_INDEX_0))
-                            pPlayer->CompletedAchievement(AchievYourSide);
-                    }
-                }
-            }
-        }
-        */
-    }
-
     void JustDied(Unit* pKiller)
     {
         //death yell
@@ -697,14 +666,7 @@ struct MANGOS_DLL_DECL boss_molgeimAI : public ScriptedAI
                             m_pInstance->SetData(TYPE_ASSEMBLY, DONE);
                             // only the current one has loot, because loot modes are implemented in sql
                             m_creature->SetFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
-
-                            // I'm on your side
-                            OnYourSide();
-
-                            // ChooseMolgeim
-                            // hacky way to complete achievements; use only if you have this function
-                            // m_pInstance->DoCompleteAchievement(m_bIsRegularMode ? ACHIEV_CHOOSE_MOLGEIM : ACHIEV_CHOOSE_MOLGEIM_H);
-                            }
+                        }
                     }
                 }
             }
@@ -823,20 +785,26 @@ struct MANGOS_DLL_DECL boss_molgeimAI : public ScriptedAI
         // level2 spells
         if (m_uiRune_Death_Timer < uiDiff && m_bSupercharge1)
         {
-            DoScriptText(SAY_MOLGEIM_DEATH_RUNE, m_creature);
             if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            {
                 if (DoCastSpellIfCan(pTarget, m_bIsRegularMode ? SPELL_RUNE_OF_DEATH : SPELL_RUNE_OF_DEATH_H) == CAST_OK)
+                {
                     m_uiRune_Death_Timer = 30000;
+                    DoScriptText(SAY_MOLGEIM_DEATH_RUNE, m_creature);
+                }
+            }
         }
         else m_uiRune_Death_Timer -= uiDiff;
 
         // level 3 spells
         if (m_uiRune_Summon_Timer < uiDiff && m_bSupercharge2)
         {
-            DoScriptText(SAY_MOLGEIM_SURGE, m_creature);
             if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
-                if (DoCastSpellIfCan(pTarget, SPELL_RUNE_OF_SUMMONING) == CAST_OK)
-                    m_uiRune_Summon_Timer = 30000;
+            {
+                DoCast(pTarget, SPELL_RUNE_OF_SUMMONING);
+                m_uiRune_Summon_Timer = 30000;
+                DoScriptText(SAY_MOLGEIM_SURGE, m_creature);
+            }
         }
         else m_uiRune_Summon_Timer -= uiDiff;
 
