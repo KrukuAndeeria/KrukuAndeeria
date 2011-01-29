@@ -31,3 +31,25 @@ REPLACE INTO spell_script_target (entry, type, targetEntry) values
 
 -- vehicle data for Grauf
 UPDATE creature_template SET VehicleEntry=40 WHERE entry IN (26893, 30775);
+
+-- immune masks (charm, fear, root, silence, sleep, snare, stun, freeze, knockout, polymorph, banish, shackle, horror, sapped)
+UPDATE creature_template SET mechanic_immune_mask=mechanic_immune_mask|1|16|64|256|512|1024|2048|4096|8192|65536|131072|524288|8388608|536870912
+WHERE entry IN (26668,26687,26693,26861,30810,30774,30807,30788);
+
+###### Emblem of Herosim ######
+# Svala Sorrowgrave 30810
+DELETE FROM creature_loot_template WHERE entry=30810 AND item=40752;
+INSERT INTO creature_loot_template VALUES
+(30810, 40752, 100, 5, 1, 1, 0, 0, 0);
+# Gortok Palehoof 30774
+DELETE FROM creature_loot_template WHERE entry=30774 AND item=40752;
+INSERT INTO creature_loot_template VALUES
+(30774, 40752, 100, 5, 1, 1, 0, 0, 0);
+# Skadi the Ruthless 30807
+DELETE FROM creature_loot_template WHERE entry=30807 AND item=40752;
+INSERT INTO creature_loot_template VALUES
+(30807, 40752, 100, 5, 1, 1, 0, 0, 0);
+# King Ymiron 30788
+DELETE FROM creature_loot_template WHERE entry=30788 AND item=40752;
+INSERT INTO creature_loot_template VALUES
+(30788, 40752, 100, 5, 1, 1, 0, 0, 0);

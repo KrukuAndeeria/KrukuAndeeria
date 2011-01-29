@@ -343,10 +343,10 @@ struct MANGOS_DLL_DECL boss_skadiAI : public ScriptedAI
                                 case 0:
                                     m_creature->EnterVehicle(pGrauf->GetVehicleKit(), 0);
                                     for (uint8 i = 3; i < 13; ++i)
-                                        if (Creature * pWarrior = m_creature->SummonCreature(NPC_YMIRJAR_WARRIOR, 479.391f, -510.158f+urand(0, 6), 104.736f, 4.73f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 300000))
+                                        if (Creature * pWarrior = m_creature->SummonCreature(NPC_YMIRJAR_WARRIOR, 479.391f, -510.158f+urand(0, 6), 104.736f, 4.73f, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 300000))
                                             pWarrior->GetMotionMaster()->MovePoint(1, SkadiSummonMove[i].x, SkadiSummonMove[i].y, SkadiSummonMove[i].z);
                                     for (uint8 i = 0; i < 3; ++i)
-                                        if (Creature * pWarrior = m_creature->SummonCreature(NPC_YMIRJAR_HARPOONER, 479.391f, -510.158f+urand(0, 6), 104.736f, 4.73f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 300000))
+                                        if (Creature * pWarrior = m_creature->SummonCreature(NPC_YMIRJAR_HARPOONER, 479.391f, -510.158f+urand(0, 6), 104.736f, 4.73f, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 300000))
                                             pWarrior->GetMotionMaster()->MovePoint(1, SkadiSummonMove[i].x, SkadiSummonMove[i].y, SkadiSummonMove[i].z);
                                     m_uiIntroTimer = 3000;
                                     break;
@@ -366,8 +366,8 @@ struct MANGOS_DLL_DECL boss_skadiAI : public ScriptedAI
 
             if (m_uiSummonAddsTimer <= uiDiff)
             {
-                m_creature->SummonCreature(NPC_YMIRJAR_WARRIOR, SUMMON_X+urand(0, 6), SUMMON_Y, SUMMON_Z, SUMMON_O, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 30000);
-                m_creature->SummonCreature((m_bSummonHarpooner ? NPC_YMIRJAR_HARPOONER : NPC_YMIRJAR_WITCH_DOCTOR), SUMMON_X+urand(0, 6), SUMMON_Y, SUMMON_Z, SUMMON_O, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 30000);
+                m_creature->SummonCreature(NPC_YMIRJAR_WARRIOR, SUMMON_X+urand(0, 6), SUMMON_Y, SUMMON_Z, SUMMON_O, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 30000);
+                m_creature->SummonCreature((m_bSummonHarpooner ? NPC_YMIRJAR_HARPOONER : NPC_YMIRJAR_WITCH_DOCTOR), SUMMON_X+urand(0, 6), SUMMON_Y, SUMMON_Z, SUMMON_O, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 30000);
                 m_bSummonHarpooner = !m_bSummonHarpooner;
                 m_uiSummonAddsTimer = (m_bIsRegularMode ? 30000 : 25000);
             }
