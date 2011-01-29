@@ -207,6 +207,25 @@ struct MANGOS_DLL_DECL boss_svalaAI : public ScriptedAI
         }
     }
 
+	Unit* SelectTargetForSacrifice()
+    {
+         std::list<Unit*> lPotentialTargets;
+         ThreatList const& tList = m_creature->getThreatManager().getThreatList();
+         for (ThreatList::const_iterator i = tList.begin();i != tList.end(); ++i)
+         {
+             Unit* pUnit = m_creature->GetMap()->GetUnit((*i)->getUnitGuid());
+             if (pUnit && pUnit->GetTypeId() == TYPEID_PLAYER && pUnit->isAlive())
+                 lPotentialTargets.push_back(pUnit);
+         }
+
+         if (lPotentialTargets.empty())
+             return NULL;
+
+         std::list<Unit*>::iterator i = lPotentialTargets.begin();
+         advance(i, (rand()%lPotentialTargets.size()));
+         return (*i);
+    }     
+
     void MoveInLineOfSight(Unit* pWho)
     {
         if (!m_bIsIntroDone && pWho && pWho->GetTypeId() == TYPEID_PLAYER && !((Player*)pWho)->isGameMaster())
@@ -423,7 +442,7 @@ struct MANGOS_DLL_DECL boss_svalaAI : public ScriptedAI
 
                 if (m_uiRitualOfSwordTimer <= uiDiff)
                 { 
-                    if (Unit* pSacrificeTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+                    if (Unit* pSacrificeTarget = SelectTargetForSacrifice() )
                     {
                         m_creature->InterruptNonMeleeSpells(false);
                         SacredText(urand(1, 5));
