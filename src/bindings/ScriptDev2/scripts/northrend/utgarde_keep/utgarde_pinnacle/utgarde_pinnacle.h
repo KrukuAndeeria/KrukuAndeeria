@@ -40,6 +40,9 @@ enum
     NPC_FLAME_TRIGGER               = 28351,
     ITEM_HARPOON                    = 37372,
     GO_HARPOON                      = 192539,
+    GO_HARPOON_LAUNCHER_1           = 192175,
+    GO_HARPOON_LAUNCHER_2           = 192176,
+    GO_HARPOON_LAUNCHER_3           = 192177
 };
 
 #endif

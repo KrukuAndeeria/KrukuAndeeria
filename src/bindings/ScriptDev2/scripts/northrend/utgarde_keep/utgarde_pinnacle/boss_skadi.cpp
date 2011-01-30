@@ -70,7 +70,12 @@ enum
 
     SPELL_SUMMON_HARPOON            = 56789,
     
-    MODEL_ID_INVISIBLE              = 11686
+    MODEL_ID_INVISIBLE              = 11686,
+    
+    GO_HARPOON_1                    = 65483,
+    GO_HARPOON_2                    = 65497,
+    GO_HARPOON_3                    = 65512
+
 };
 
 #define SKADI_X         343.02f
@@ -166,7 +171,7 @@ struct MANGOS_DLL_DECL boss_skadiAI : public ScriptedAI
         m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         SetCombatMovement(false);
 
-        m_creature->ExitVehicle();
+ //       m_creature->ExitVehicle();
 //        m_creature->NearTeleportTo(SKADI_X, SKADI_Y, SKADI_Z, SKADI_O);
         if (m_pInstance)
         {
@@ -188,6 +193,12 @@ struct MANGOS_DLL_DECL boss_skadiAI : public ScriptedAI
 
         if (m_pInstance)
             m_pInstance->SetData(TYPE_SKADI, IN_PROGRESS);
+        {
+            if (Creature* pGrauf = m_creature->GetMap()->GetCreature(m_pInstance->GetData64(NPC_GRAUF)))
+            {
+                pGrauf->Respawn();
+            }
+        }
     }
     
     void KilledUnit(Unit* pVictim)
@@ -257,6 +268,33 @@ struct MANGOS_DLL_DECL boss_skadiAI : public ScriptedAI
         }
     }
 
+	void ActivateHarpoons(bool Activate)
+	{
+
+        if(Activate)
+        {
+            if(GameObject* pHarpoon = m_creature->GetMap()->GetGameObject(m_pInstance->GetData64(GO_HARPOON_LAUNCHER_1)))
+                pHarpoon->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
+            
+            if(GameObject* pHarpoon = m_creature->GetMap()->GetGameObject(m_pInstance->GetData64(GO_HARPOON_LAUNCHER_2)))
+                pHarpoon->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
+            
+            if(GameObject* pHarpoon = m_creature->GetMap()->GetGameObject(m_pInstance->GetData64(GO_HARPOON_LAUNCHER_3)))
+                pHarpoon->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
+        }
+        
+        if(!Activate)
+        {
+            if(GameObject* pHarpoon = m_creature->GetMap()->GetGameObject(m_pInstance->GetData64(GO_HARPOON_LAUNCHER_1)))
+                pHarpoon->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
+            
+            if(GameObject* pHarpoon = m_creature->GetMap()->GetGameObject(m_pInstance->GetData64(GO_HARPOON_LAUNCHER_2)))
+                pHarpoon->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
+            
+            if(GameObject* pHarpoon = m_creature->GetMap()->GetGameObject(m_pInstance->GetData64(GO_HARPOON_LAUNCHER_3)))
+                pHarpoon->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
+        }
+    }
     void NextWp()
     {
         switch (m_uiWpCount)
@@ -305,6 +343,8 @@ struct MANGOS_DLL_DECL boss_skadiAI : public ScriptedAI
         
         if (m_uiWpCount > 6)
            m_uiWpCount = 0;
+        
+        ActivateHarpoons(m_bCanLaunchHarpoon);
 
     }
 
@@ -341,7 +381,7 @@ struct MANGOS_DLL_DECL boss_skadiAI : public ScriptedAI
                             switch (m_uiIntroCount)
                             {
                                 case 0:
-                                    m_creature->EnterVehicle(pGrauf->GetVehicleKit(), 0);
+                                   // m_creature->EnterVehicle(pGrauf->GetVehicleKit(), 0);
                                     for (uint8 i = 3; i < 13; ++i)
                                         if (Creature * pWarrior = m_creature->SummonCreature(NPC_YMIRJAR_WARRIOR, 479.391f, -510.158f+urand(0, 6), 104.736f, 4.73f, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 300000))
                                             pWarrior->GetMotionMaster()->MovePoint(1, SkadiSummonMove[i].x, SkadiSummonMove[i].y, SkadiSummonMove[i].z);
@@ -463,6 +503,11 @@ struct MANGOS_DLL_DECL boss_graufAI : public ScriptedAI
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         m_creature->SetActiveObjectState(true);
     }
+    
+    void Aggro(Unit* pWho)
+    {
+        m_creature->SetInCombatWithZone();
+    }
 
     void SpellHit(Unit* pCaster, const SpellEntry* pSpell)
     {
@@ -496,13 +541,14 @@ struct MANGOS_DLL_DECL boss_graufAI : public ScriptedAI
         {
             if (Creature* pSkadi = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_SKADI)))
             {
-                pSkadi->ExitVehicle();
+               // pSkadi->ExitVehicle();
                 DoScriptText(SAY_DRAKE_DEATH, pSkadi);
                 ((boss_skadiAI*)pSkadi->AI())->m_bIsFirstPhase = false;
                 pSkadi->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
                 ((boss_skadiAI*)pSkadi->AI())->SetCombatMovement(true);
                 ((boss_skadiAI*)pSkadi->AI())->m_bCanLaunchHarpoon = false;
                 pSkadi->GetMap()->CreatureRelocation(pSkadi, 479.391f, -510.158f, 104.736f, pSkadi->GetOrientation());
+                pSkadi->SendMonsterMove(479.391f, -510.158f, 104.736f, SPLINETYPE_NORMAL, SPLINEFLAG_TRAJECTORY, 1000);
                 // pSkadi->SendMonsterMoveJump(479.391f, -510.158f, 104.736f, 20.0f, SPLINEFLAG_TRAJECTORY, 1000);
                 if (Unit* pTarget = pSkadi->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 {
@@ -560,6 +606,7 @@ bool GOUse_skadi_harpoon_launcher(Player* pPlayer, GameObject* pGo)
                         pTempGrauf->SetDisplayId(MODEL_ID_INVISIBLE);
                         pDummyCaster->CastSpell(pTempGrauf, SPELL_LAUNCH_HARPOON, true);
                     }
+                    pGo->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
             }
     return true;
 }

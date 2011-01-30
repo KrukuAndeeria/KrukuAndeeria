@@ -38,6 +38,10 @@ struct MANGOS_DLL_DECL instance_pinnacle : public ScriptedInstance
     uint64 m_uiWorgenGUID;
     uint64 m_uiFurlborgGUID;
     uint64 m_uiJormungarGUID;
+    
+    uint64 m_uiHarpoonLauncher1GUID;
+    uint64 m_uiHarpoonLauncher2GUID;
+    uint64 m_uiHarpoonLauncher3GUID;
 
     uint64 m_uiRanulfGUID;
     uint64 m_uiHaldorGUID;
@@ -61,6 +65,10 @@ struct MANGOS_DLL_DECL instance_pinnacle : public ScriptedInstance
         m_uiWorgenGUID = 0;
         m_uiFurlborgGUID = 0;
         m_uiJormungarGUID = 0;
+        
+        m_uiHarpoonLauncher1GUID = 0;
+        m_uiHarpoonLauncher2GUID = 0;
+        m_uiHarpoonLauncher3GUID = 0;
 
         m_uiRanulfGUID = 0;
         m_uiHaldorGUID = 0;
@@ -133,6 +141,15 @@ struct MANGOS_DLL_DECL instance_pinnacle : public ScriptedInstance
                 m_uiYmironDoorGUID = pGo->GetGUID();
                 if (m_auiEncounter[3] == DONE)
                     pGo->SetGoState(GO_STATE_ACTIVE);
+                break;
+            case GO_HARPOON_LAUNCHER_1:
+                m_uiHarpoonLauncher1GUID = pGo->GetGUID();
+                break;
+            case GO_HARPOON_LAUNCHER_2:
+                m_uiHarpoonLauncher2GUID = pGo->GetGUID();
+                break;
+            case GO_HARPOON_LAUNCHER_3:
+                m_uiHarpoonLauncher3GUID = pGo->GetGUID();
                 break;
         }
     }
@@ -238,6 +255,12 @@ struct MANGOS_DLL_DECL instance_pinnacle : public ScriptedInstance
                 return m_uiSkadiGUID;
             case NPC_GRAUF:
                 return m_uiGraufGUID;
+            case GO_HARPOON_LAUNCHER_1:
+                return m_uiHarpoonLauncher1GUID;
+            case GO_HARPOON_LAUNCHER_2:
+                return m_uiHarpoonLauncher2GUID;
+            case GO_HARPOON_LAUNCHER_3:
+                return m_uiHarpoonLauncher3GUID;
         }
         return 0;
     }
