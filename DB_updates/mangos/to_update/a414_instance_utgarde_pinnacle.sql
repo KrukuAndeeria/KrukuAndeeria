@@ -53,3 +53,13 @@ INSERT INTO creature_loot_template VALUES
 DELETE FROM creature_loot_template WHERE entry=30788 AND item=40752;
 INSERT INTO creature_loot_template VALUES
 (30788, 40752, 100, 5, 1, 1, 0, 0, 0);
+
+-- Restored Skadi, Grauf and door spawn :)
+REPLACE INTO `gameobject` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`) VALUES
+(65440, 192173, 575, 3, 1, 477.496, -477.183, 103.064, -1.58825, 0, 0, -0.71325, 0.700909, 180, 0, 1);
+REPLACE INTO `creature` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `modelid`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `spawndist`, `currentwaypoint`, `curhealth`, `curmana`, `DeathState`, `MovementType`) VALUES
+(126103, 26693, 575, 3, 1, 0, 0, 343.02, -507.325, 104.567, 2.96706, 86400, 0, 0, 1260000, 0, 0, 0),
+(126052, 26893, 575, 3, 1, 0, 0, 341.741, -516.955, 104.669, 3.12414, 3600, 0, 0, 1260000, 0, 0, 0);
+
+
+
