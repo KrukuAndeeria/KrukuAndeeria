@@ -233,7 +233,7 @@ pAuraHandler AuraHandler[TOTAL_AURAS]=
     &Aura::HandleNoImmediateEffect,                         //180 SPELL_AURA_MOD_FLAT_SPELL_DAMAGE_VERSUS   implemented in Unit::SpellDamageBonusDone
     &Aura::HandleUnused,                                    //181 unused (3.0.8a-3.2.2a) old SPELL_AURA_MOD_FLAT_SPELL_CRIT_DAMAGE_VERSUS
     &Aura::HandleAuraModResistenceOfStatPercent,            //182 SPELL_AURA_MOD_RESISTANCE_OF_STAT_PERCENT
-    &Aura::HandleNoImmediateEffect,                         //183 SPELL_AURA_MOD_CRITICAL_THREAT only used in 28746, implemented in ThreatCalcHelper::calcThreat
+    &Aura::HandleNoImmediateEffect,                         //183 SPELL_AURA_MOD_CRITICAL_THREAT only used in 28746, implemented in ThreatCalcHelper::CalcThreat
     &Aura::HandleNoImmediateEffect,                         //184 SPELL_AURA_MOD_ATTACKER_MELEE_HIT_CHANCE  implemented in Unit::RollMeleeOutcomeAgainst
     &Aura::HandleNoImmediateEffect,                         //185 SPELL_AURA_MOD_ATTACKER_RANGED_HIT_CHANCE implemented in Unit::RollMeleeOutcomeAgainst
     &Aura::HandleNoImmediateEffect,                         //186 SPELL_AURA_MOD_ATTACKER_SPELL_HIT_CHANCE  implemented in Unit::MagicSpellHitResult
@@ -2246,6 +2246,112 @@ void Aura::HandleAuraDummy(bool apply, bool Real)
             }
             case SPELLFAMILY_WARRIOR:
             {
+                switch(GetId())
+                {
+                    case 41099:                             // Battle Stance
+                    {
+                        if (target->GetTypeId() != TYPEID_UNIT)
+                            return;
+
+                        // Stance Cooldown
+                        target->CastSpell(target, 41102, true, NULL, this);
+
+                        // Battle Aura
+                        target->CastSpell(target, 41106, true, NULL, this);
+
+                        // equipment
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 0, 32614);
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 1, 0);
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 2, 0);
+                        return;
+                    }
+                    case 41100:                             // Berserker Stance
+                    {
+                        if (target->GetTypeId() != TYPEID_UNIT)
+                            return;
+
+                        // Stance Cooldown
+                        target->CastSpell(target, 41102, true, NULL, this);
+
+                        // Berserker Aura
+                        target->CastSpell(target, 41107, true, NULL, this);
+
+                        // equipment
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 0, 32614);
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 1, 0);
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 2, 0);
+                        return;
+                    }
+                    case 41101:                             // Defensive Stance
+                    {
+                        if (target->GetTypeId() != TYPEID_UNIT)
+                            return;
+
+                        // Stance Cooldown
+                        target->CastSpell(target, 41102, true, NULL, this);
+
+                        // Defensive Aura
+                        target->CastSpell(target, 41105, true, NULL, this);
+
+                        // equipment (unknown, but should be axe+shield)
+                        //target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 0, 0);
+                        //target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 1, 0);
+                        //target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 2, 0);
+                        return;
+                    }
+                    case 53790:                             // Defensive Stance
+                    {
+                        if (target->GetTypeId() != TYPEID_UNIT)
+                            return;
+
+                        // Stance Cooldown
+                        target->CastSpell(target, 59526, true, NULL, this);
+
+                        // Defensive Aura
+                        target->CastSpell(target, 41105, true, NULL, this);
+
+                        // equipment (need help here, item id not known)
+                        //target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 0, 0);
+                        //target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 1, 0);
+                        //target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 2, 0);
+                        return;
+                    }
+                    case 53791:                             // Berserker Stance
+                    {
+                        if (target->GetTypeId() != TYPEID_UNIT)
+                            return;
+
+                        // Stance Cooldown
+                        target->CastSpell(target, 59526, true, NULL, this);
+
+                        // Berserker Aura
+                        target->CastSpell(target, 41107, true, NULL, this);
+
+                        // equipment
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 0, 43625);
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 1, 43625);
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 2, 0);
+                        return;
+                    }
+                    case 53792:                             // Battle Stance
+                    {
+                        if (target->GetTypeId() != TYPEID_UNIT)
+                            return;
+
+                        // Stance Cooldown
+                        target->CastSpell(target, 59526, true, NULL, this);
+
+                        // Battle Aura
+                        target->CastSpell(target, 41106, true, NULL, this);
+
+                        // equipment
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 0, 43623);
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 1, 0);
+                        target->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 2, 0);
+                        return;
+                    }
+                }
+
                 // Overpower
                 if (GetSpellProto()->SpellFamilyFlags & UI64LIT(0x0000000000000004))
                 {
@@ -2482,6 +2588,24 @@ void Aura::HandleAuraDummy(bool apply, bool Real)
                 target->CastSpell(target, 36731, true, NULL, this);
                 return;
             }
+            case 41099:                                     // Battle Stance
+            {
+                // Battle Aura
+                target->RemoveAurasDueToSpell(41106);
+                return;
+            }
+            case 41100:                                     // Berserker Stance
+            {
+                // Berserker Aura
+                target->RemoveAurasDueToSpell(41107);
+                return;
+            }
+            case 41101:                                     // Defensive Stance
+            {
+                // Defensive Aura
+                target->RemoveAurasDueToSpell(41105);
+                return;
+            }
             case 42517:                                     // Beam to Zelfrax
             {
                 // expecting target to be a dummy creature
@@ -2544,6 +2668,31 @@ void Aura::HandleAuraDummy(bool apply, bool Real)
                         pCaster->CastSpell(target, 51872, true, NULL, this);
                 }
 
+                return;
+            }
+            case 52098:                                     // Charge Up
+            {
+                if (m_removeMode == AURA_REMOVE_BY_EXPIRE)
+                    target->CastSpell(target, 52092, true, NULL, this);
+
+                return;
+            }
+            case 53790:                                     // Defensive Stance
+            {
+                // Defensive Aura
+                target->RemoveAurasDueToSpell(41105);
+                return;
+            }
+            case 53791:                                     // Berserker Stance
+            {
+                // Berserker Aura
+                target->RemoveAurasDueToSpell(41107);
+                return;
+            }
+            case 53792:                                     // Battle Stance
+            {
+                // Battle Aura
+                target->RemoveAurasDueToSpell(41106);
                 return;
             }
             case 56511:                                     // Towers of Certain Doom: Tower Bunny Smoke Flare Effect

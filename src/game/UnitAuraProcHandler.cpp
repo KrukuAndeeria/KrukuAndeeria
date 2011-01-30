@@ -2650,9 +2650,6 @@ SpellAuraProcResult Unit::HandleDummyAuraProc(Unit *pVictim, uint32 damage, Aura
                 ((Player*)this)->AddSpellMod(modThreat, false);
                 ((Player*)this)->AddSpellMod(modBonusDmg, false);
 
-                if( cooldown && GetTypeId()==TYPEID_PLAYER )
-                    ((Player*)this)->AddSpellCooldown(dummySpell->Id,0,time(NULL) + cooldown);
-
                 return SPELL_AURA_PROC_OK;
             }
             // Static Shock
