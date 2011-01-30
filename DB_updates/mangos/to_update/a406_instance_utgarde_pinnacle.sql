@@ -10,7 +10,7 @@ UPDATE creature_template SET ScriptName='npc_furlborg' WHERE entry=26684;
 UPDATE creature_template SET ScriptName='npc_jormungar' WHERE entry=26685;
 UPDATE creature_template SET ScriptName='npc_rhino' WHERE entry=26686;
 -- Skadi the Ruthless
-UPDATE gameobject_template SET ScriptName='go_skadi_harpoon_launcher' WHERE entry IN (192175, 192176, 192177);
+UPDATE gameobject_template SET ScriptName='go_skadi_harpoon_launcher', flags=flags|4 WHERE entry IN (192175, 192176, 192177);
 UPDATE gameobject_template SET ScriptName='go_skadi_harpoon' WHERE entry=192539;
 UPDATE creature_template SET ScriptName='boss_grauf' WHERE entry=26893;
 -- King Ymiron
