@@ -276,7 +276,7 @@ struct MANGOS_DLL_DECL mob_feral_defenderAI : public ScriptedAI
             if (m_pInstance->GetData(TYPE_AURIAYA) == DONE)
             {
                 Reset();
-                ForcedDespawn(1000);
+                m_creature->ForcedDespawn(1000);
                 return;
             }
         }
