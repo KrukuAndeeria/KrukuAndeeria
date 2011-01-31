@@ -271,6 +271,10 @@ struct MANGOS_DLL_DECL mob_feral_defenderAI : public ScriptedAI
 	// feign death
     void DamageTaken(Unit* pDoneBy, uint32& uiDamage)
     {
+        if (m_pInstance)
+            if (m_pInstance->GetData(TYPE_AURIAYA) == DONE)
+                return;
+
         if (uiDamage > m_creature->GetHealth())
         {
             uiDamage = 0;
