@@ -24,7 +24,6 @@ kórv
 kórw
 kórf
 kor\/\/
-korf
 korwa
 korwy
 korwi
@@ -45,7 +44,6 @@ qorf
 curv
 curw
 curf
-corv
 kruwa
 kruwo
 kruwy
@@ -124,6 +122,9 @@ rucha
  fiuc
  pedale
 ssij
+ssaj
+ pisior
+ siuras
 shit
 fuck
  dick 
