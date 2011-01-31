@@ -135,6 +135,10 @@ void instance_ulduar::Initialize()
     m_uiBrainDoor1GUID      = 0;
     m_uiBrainDoor2GUID      = 0;
     m_uiBrainDoor3GUID      = 0;
+
+    // Leviathan not implemented, so set it as DONE
+    SetData(TYPE_LEVIATHAN, DONE);
+    SetData(TYPE_LEVIATHAN_TP, DONE);
 }
 
 bool instance_ulduar::IsEncounterInProgress() const
@@ -293,9 +297,7 @@ void instance_ulduar::OnObjectCreate(GameObject *pGo)
         break;
     case GO_XT002_GATE:
         pGo->SetGoState(GO_STATE_READY);
-        if(m_auiEncounter[3] == DONE)
-            pGo->SetGoState(GO_STATE_ACTIVE);
-        if(m_auiEncounter[1] == DONE && m_auiEncounter[2] == DONE)
+        if(m_auiEncounter[0] == DONE || m_auiEncounter[3] == DONE)
             pGo->SetGoState(GO_STATE_ACTIVE);
         m_uiXT002GateGUID = pGo->GetGUID();
         break;
@@ -310,6 +312,7 @@ void instance_ulduar::OnObjectCreate(GameObject *pGo)
         break;
     case GO_ARCHIVUM_DOOR:
         m_uiArchivumDoorGUID = pGo->GetGUID();
+        pGo->SetGoState(GO_STATE_READY);
         if(m_auiEncounter[4])
             pGo->SetGoState(GO_STATE_ACTIVE);
         break;
@@ -344,6 +347,7 @@ void instance_ulduar::OnObjectCreate(GameObject *pGo)
         break;
     case GO_SHATTERED_DOOR:
         m_uiShatteredHallsDoorGUID = pGo->GetGUID();
+        pGo->SetGoState(GO_STATE_READY);
         break;
 
         // The keepers
@@ -360,6 +364,7 @@ void instance_ulduar::OnObjectCreate(GameObject *pGo)
         break;
     case GO_HODIR_ENTER:
         m_uiHodirEnterDoorGUID = pGo->GetGUID();
+        pGo->SetGoState(GO_STATE_READY);
         break;
         // Mimiron
     case GO_MIMIRON_TRAM:
@@ -573,14 +578,6 @@ void instance_ulduar::DoOpenMadnessDoorIfCan()
         OpenDoor(m_uiAncientGateGUID);
 }
 
-// used to open the door to XT (custom script because Leviathan is disabled)
-// this will be removed when the Leviathan will be implemented
-void instance_ulduar::OpenXtDoor()
-{
-    if(m_auiEncounter[1] == DONE && m_auiEncounter[2] == DONE)
-        OpenDoor(m_uiXT002GateGUID);
-}
-
 void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
 {
     switch(uiType)
@@ -589,22 +586,17 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
         m_auiEncounter[0] = uiData;
         DoUseDoorOrButton(m_uiShieldWallGUID);
         if (uiData == DONE)
-        {
-            OpenDoor(m_uiXT002GateGUID);
             OpenDoor(m_uiLeviathanGateGUID);
-        }
         break;
     case TYPE_IGNIS:
         m_auiEncounter[1] = uiData;
-        OpenXtDoor();       // remove when leviathan implemented
         break;
     case TYPE_RAZORSCALE:
         m_auiEncounter[2] = uiData;
-        OpenXtDoor();       // remove when leviathan implemented
         break;
     case TYPE_XT002:
         m_auiEncounter[3] = uiData;
-        if (uiData == DONE)
+        if (uiData == DONE || uiData == FAIL)
             OpenDoor(m_uiXT002GateGUID);
         else if (uiData == IN_PROGRESS)
             CloseDoor(m_uiXT002GateGUID);
@@ -615,10 +607,8 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
         {
             OpenDoor(m_uiIronCouncilDoorGUID);
             OpenDoor(m_uiArchivumDoorGUID);
-            CheckIronCouncil();        // used for a hacky achiev, remove for revision!
+            OpenDoor(m_uiShatteredHallsDoorGUID);
         }
-        else if (uiData == FAIL)
-            OpenDoor(m_uiIronCouncilDoorGUID);
         else if (uiData == IN_PROGRESS)
             CloseDoor(m_uiIronCouncilDoorGUID);
         break;
@@ -627,7 +617,6 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
         if (uiData == DONE)
         {
             DoRespawnGameObject(m_uiKologarnLootGUID, 30*MINUTE);
-            if(m_auiEncounter[5] == DONE)
             if (GameObject* pGo = instance->GetGameObject(m_uiKologarnBridgeGUID))
             {
                 pGo->SetUInt32Value(GAMEOBJECT_LEVEL, 0);
@@ -639,7 +628,6 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
         m_auiEncounter[6] = uiData;
         if (uiData == DONE)
         {
-//                CheckIronCouncil();        // used for a hacky achiev, remove for revision!
             if (GameObject* pGO = instance->GetGameObject(m_uiMimironTramGUID))
             {
                 pGO->SetUInt32Value(GAMEOBJECT_LEVEL, 0);
@@ -662,12 +650,10 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
             if(Creature* pImage = instance->GetCreature(m_uiMimironImageGUID))
                 pImage->SetVisibility(VISIBILITY_ON);
             DoOpenMadnessDoorIfCan();
-            CheckKeepers();        // used for a hacky achiev, remove for revision!
         }
         break;
     case TYPE_HODIR:
         m_auiEncounter[8] = uiData;
-        DoUseDoorOrButton(m_uiHodirEnterDoorGUID);
         if (uiData == DONE)
         {
             DoUseDoorOrButton(m_uiHodirWallGUID);
@@ -677,7 +663,6 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
             if(Creature* pImage = instance->GetCreature(m_uiHodirImageGUID))
                 pImage->SetVisibility(VISIBILITY_ON);
             DoOpenMadnessDoorIfCan();
-            CheckKeepers();        // used for a hacky achiev, remove for revision!
         }
         break;
     case TYPE_THORIM:
@@ -693,7 +678,6 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
             if(Creature* pImage = instance->GetCreature(m_uiThorimImageGUID))
                 pImage->SetVisibility(VISIBILITY_ON);
             DoOpenMadnessDoorIfCan();
-            CheckKeepers();        // used for a hacky achiev, remove for revision!
         }
         break;
     case TYPE_FREYA:
@@ -713,7 +697,6 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
             if(Creature* pImage = instance->GetCreature(m_uiFreyaImageGUID))
                 pImage->SetVisibility(VISIBILITY_ON);
             DoOpenMadnessDoorIfCan();
-            CheckKeepers();        // used for a hacky achiev, remove for revision!
         }
         break;
 
@@ -955,7 +938,6 @@ bool instance_ulduar::CheckAchievementCriteriaMeet(uint32 criteria_id, const Pla
     return false;
 }
 
-// TODO: implement all hard mode loot here!
 bool instance_ulduar::CheckConditionCriteriaMeet(Player const* source, uint32 map_id, uint32 instance_condition_id)
 {
     if (map_id != instance->GetId())
@@ -1095,26 +1077,6 @@ void instance_ulduar::Load(const char* strIn)
     }
 
     OUT_LOAD_INST_DATA_COMPLETE;
-}
-
-// Hacky way of completing some achievs
-// PLEASE REMOVE FOR REVISION!
-void instance_ulduar::CheckIronCouncil()
-{
-    // check if the other bosses in the antechamber are dead
-    // hacky way to complete achievements; use only if you have this function
-    /*AchievementEntry const *COUNCIL = GetAchievementStore()->LookupEntry(instance->IsRegularDifficulty() ? ACHIEV_IRON_COUNCIL : ACHIEV_IRON_COUNCIL_H);
-    if(m_auiEncounter[4] == DONE && m_auiEncounter[5] == DONE && m_auiEncounter[6] == DONE)
-        DoCompleteAchievement(COUNCIL);*/
-}
-
-void instance_ulduar::CheckKeepers()
-{
-    /*AchievementEntry const *KEEPER = GetAchievementStore()->LookupEntry(instance->IsRegularDifficulty() ? ACHIEV_KEEPERS : ACHIEV_KEEPERS_H);
-    // check if the other bosses in the antechamber are dead
-    // hacky way to complete achievements; use only if you have this function
-    if(m_auiEncounter[7] == DONE && m_auiEncounter[8] == DONE && m_auiEncounter[9] == DONE && m_auiEncounter[10] == DONE)
-        DoCompleteAchievement(KEEPER);*/
 }
 
 InstanceData* GetInstanceData_instance_ulduar(Map* pMap)

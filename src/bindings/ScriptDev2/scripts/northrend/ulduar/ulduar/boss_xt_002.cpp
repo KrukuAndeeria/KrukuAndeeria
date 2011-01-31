@@ -486,10 +486,15 @@ struct MANGOS_DLL_DECL boss_xt_002AI : public ScriptedAI
         if (!m_pInstance)
             return;
 
-        m_pInstance->SetData(TYPE_XT002, NOT_STARTED);
         m_pInstance->SetData(TYPE_XT002_HARD, NOT_STARTED);
 
         DespawnAdds();
+    }
+
+    void JustReachedHome()
+    {
+        if (m_pInstance)
+            m_pInstance->SetData(TYPE_XT002, FAIL);
     }
 
     void JustDied(Unit* pKiller)
