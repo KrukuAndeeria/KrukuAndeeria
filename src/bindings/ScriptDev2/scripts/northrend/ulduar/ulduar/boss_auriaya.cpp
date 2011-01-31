@@ -272,8 +272,14 @@ struct MANGOS_DLL_DECL mob_feral_defenderAI : public ScriptedAI
     void DamageTaken(Unit* pDoneBy, uint32& uiDamage)
     {
         if (m_pInstance)
+        {
             if (m_pInstance->GetData(TYPE_AURIAYA) == DONE)
+            {
+                Reset();
+                ForcedDespawn(1000);
                 return;
+            }
+        }
 
         if (uiDamage > m_creature->GetHealth())
         {
