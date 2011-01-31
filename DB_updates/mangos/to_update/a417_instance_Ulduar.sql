@@ -217,3 +217,20 @@ INSERT INTO vehicle_seat_data VALUES
 (3690, 0),
 (3691, 0),
 (3692, 0);
+
+-- Auriaya
+UPDATE creature_template SET mechanic_immune_mask=583745371, equipment_id = 103000, scriptname='boss_auriaya' WHERE entry=33515;
+UPDATE creature_template SET mechanic_immune_mask=619395071, scriptname='mob_feral_defender' WHERE entry=34035;
+UPDATE creature_template SET minlevel=80, maxlevel=80, faction_h=14, faction_a=14, scriptname='mob_seeping_feral_essence' WHERE entry=34098;
+UPDATE creature_template SET ScriptName = 'mob_sanctum_sentry' WHERE entry = 34014;
+UPDATE `creature_template` SET `mechanic_immune_mask` = 619397115 WHERE `entry` IN (33515, 34175);
+DELETE FROM creature_equip_template WHERE entry = 103000;
+INSERT INTO creature_equip_template values (103000, 45315, 0, 0);
+-- 2 more defenders for 25 man
+-- DELETE FROM creature WHERE guid IN (800010, 800011);
+-- INSERT INTO `creature` (`guid`,`id`,`map`,`spawnMask`,`phaseMask`,`modelid`,`equipment_id`,`position_x`,`position_y`,`position_z`,`orientation`,`spawntimesecs`,`spawndist`,`currentwaypoint`,`curhealth`,`curmana`,`DeathState`,`MovementType`) VALUES
+-- (800010, 34014, 603, 2, 65535, 0, 0, 1945.2, 37.2442, 411.356, 3.62107, 7200, 0, 0, 334680, 0, 0, 0),
+-- (800011, 34014, 603, 2, 65535, 0, 0, 1936.11, 49.8233, 411.352, 3.85276, 7200, 0, 0, 334680, 0, 0, 0);
+DELETE FROM spell_script_target WHERE entry = 64449;
+INSERT INTO spell_script_target VALUES
+(64449, 1, 34096);

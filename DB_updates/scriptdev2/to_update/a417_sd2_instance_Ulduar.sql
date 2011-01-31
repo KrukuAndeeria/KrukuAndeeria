@@ -100,3 +100,14 @@ INSERT INTO script_texts (entry, content_default, content_loc1, content_loc2, co
 (-1603135,'The Right Arm has regrown!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_right hand'),
 (-1603136,'The Left Arm has regrown!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_left hand'),
 (-1603137,'Kologarn casts Stone Grip!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_stone grip');
+
+-- Auriaya:
+DELETE FROM script_texts WHERE entry BETWEEN -1603144 AND -1603138;
+INSERT INTO script_texts (entry, content_default, content_loc1, content_loc2, content_loc3, content_loc4, content_loc5, content_loc6, content_loc7, content_loc8, sound, type, language, emote, comment) VALUES
+(-1603138,"Some things are better left alone!","","","","","","","","",15473,1,0,0,"auriaya aggro"),
+(-1603139,"The secret dies with you!","","","","","","","","",15474,1,0,0,"auriaya Slay 2"),
+(-1603140,"There is no escape!","","","","","","","","",15475,1,0,0,"auriaya Slay 1"),
+(-1603141,"You waste my time!","","","","","","","","",15477,1,0,0,"auriaya berserk"),
+(-1603142,"Auriaya screams in agony.","","","","","","","","",15476,2,0,0,"auriaya death"),
+(-1603143,'Auriaya begins to cast Terrifying Screech.' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_screech'),
+(-1603144,'Auriaya begins to activate the Feral Defender!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_defender');
