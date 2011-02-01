@@ -126,6 +126,10 @@ UPDATE `creature_template` SET `ScriptName` = "mob_voidzone" WHERE `entry` = 340
 UPDATE `creature_template` SET `ScriptName` = "mob_lifespark" WHERE `entry` = 34004;
 UPDATE `creature_template` SET `ScriptName` = "mob_scrap_bot" WHERE `entry` = 33343;
 
+-- adjust the damage of Life Sparks
+UPDATE `creature_template` SET dmg_multiplier = 12.5 WHERE entry = 34004;
+UPDATE `creature_template` SET dmg_multiplier = 25 WHERE entry = 34005;
+
 -- loot
 DELETE FROM `creature_loot_template` WHERE `entry` IN (33293, 33885);
 INSERT INTO `creature_loot_template` VALUES

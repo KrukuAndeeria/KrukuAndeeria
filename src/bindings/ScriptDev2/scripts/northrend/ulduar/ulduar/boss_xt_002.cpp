@@ -182,7 +182,7 @@ struct MANGOS_DLL_DECL mob_lifesparkAI : public ScriptedAI
 
         if (m_uiShockTimer <= diff)
         {
-            DoCast(m_creature->getVictim(), SPELL_SHOCK, true);
+            DoCast(m_creature->getVictim(), SPELL_SHOCK);
             m_uiShockTimer = 2000;
         }
         else m_uiShockTimer -= diff;
@@ -565,11 +565,14 @@ struct MANGOS_DLL_DECL boss_xt_002AI : public ScriptedAI
 
     void DespawnUnitsFromList(std::list<uint64> list)
     {
+        if (!m_pInstance)
+            return;
+
         if (!list.empty())
         {
             for (std::list<uint64>::iterator i = list.begin(); i != list.end(); i++)
             {
-                Unit *pTmp = m_pInstance->instance->GetUnit(*i);
+                Creature *pTmp = m_pInstance->instance->GetCreature(*i);
                 if (pTmp && pTmp->isAlive())
                     pTmp->DealDamage(pTmp, pTmp->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NONE, NULL, false);
             }
@@ -663,9 +666,6 @@ struct MANGOS_DLL_DECL boss_xt_002AI : public ScriptedAI
                     m_uiXtHeartGUID = Heart->GetGUID();
                     Heart->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
                     Heart->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-				    // this needs fixing in DB
-                    if(!m_bIsRegularMode)
-                        Heart->SetMaxHealth(7199999);
                 }
             }
 
