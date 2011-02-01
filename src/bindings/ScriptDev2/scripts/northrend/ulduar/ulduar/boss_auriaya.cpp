@@ -182,16 +182,14 @@ struct MANGOS_DLL_DECL mob_sanctum_sentryAI : public ScriptedAI
 
     void UpdateAI(const uint32 diff)
     {
-        if (!m_creature->isInCombat())
+        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
         {
             if (m_creature->GetMotionMaster()->GetCurrentMovementGeneratorType() != FOLLOW_MOTION_TYPE)
                 if (m_pInstance)
                     if (Creature *pAuriaya = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_AURIAYA)))
                         m_creature->GetMotionMaster()->MoveFollow(pAuriaya, 5.0f, urand(60, 250)/100.0f);
-        }
-
-        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
+        }
 
         if (m_uiRip_Flesh_Timer < diff)
         {
