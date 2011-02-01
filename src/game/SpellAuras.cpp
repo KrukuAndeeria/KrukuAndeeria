@@ -7580,7 +7580,10 @@ void Aura::PeriodicTick()
             if (pdamage)
                 procVictim|=PROC_FLAG_TAKEN_ANY_DAMAGE;
 
-            pCaster->ProcDamageAndSpell(target, procAttacker, procVictim, procEx, pdamage, BASE_ATTACK, spellProto);
+            if (target && spellProto)
+                pCaster->ProcDamageAndSpell(target, procAttacker, procVictim, procEx, pdamage, BASE_ATTACK, spellProto);
+            else
+                sLog.outError("*** Crash alert *** %s (guid %u) sent ProcDamageAndSpell from aura %u without valid target &/or spell entry",pCaster->GetName(), pCaster->GetGUID(), this->GetSpellProto()->Id);
 
             pCaster->DealDamage(target, pdamage, &cleanDamage, DOT, GetSpellSchoolMask(spellProto), spellProto, true);
 
