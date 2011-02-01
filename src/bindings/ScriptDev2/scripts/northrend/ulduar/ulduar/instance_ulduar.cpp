@@ -611,6 +611,8 @@ void instance_ulduar::SetData(uint32 uiType, uint32 uiData)
         }
         else if (uiData == IN_PROGRESS)
             CloseDoor(m_uiIronCouncilDoorGUID);
+        else if (uiData == FAIL)
+            OpenDoor(m_uiIronCouncilDoorGUID);
         break;
     case TYPE_KOLOGARN:
         m_auiEncounter[5] = uiData;
