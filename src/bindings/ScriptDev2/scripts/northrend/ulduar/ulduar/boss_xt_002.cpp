@@ -182,8 +182,11 @@ struct MANGOS_DLL_DECL mob_lifesparkAI : public ScriptedAI
 
         if (m_uiShockTimer <= diff)
         {
-            DoCast(m_creature->getVictim(), SPELL_SHOCK);
-            m_uiShockTimer = 2000;
+            if (m_creature->IsWithinDistInMap(m_creature->getVictim(), 5))
+            {
+                DoCast(m_creature->getVictim(), SPELL_SHOCK, true);
+                m_uiShockTimer = 2000;
+            }
         }
         else m_uiShockTimer -= diff;
     }
