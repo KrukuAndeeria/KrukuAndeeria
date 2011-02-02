@@ -213,12 +213,14 @@ struct MANGOS_DLL_DECL mob_rune_of_summoningAI : public ScriptedAI
     {
         m_uiDeath_Timer     = 0;
         m_uiSummon_Timer    = 5000;
-        m_uiSummonNum       = 0;
         m_creature->setFaction(35);
         m_creature->SetInCombatWithZone();
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         DoCast(m_creature,  AURA_RUNE_OF_SUMMONING, true);
+
+        if (m_pInstance)
+            m_uiSummonNum = m_pInstance->instance->GetPlayersCountExceptGMs();
     }
 
     void JustSummoned(Creature* pSummoned)
@@ -233,9 +235,9 @@ struct MANGOS_DLL_DECL mob_rune_of_summoningAI : public ScriptedAI
         if (m_uiSummon_Timer < diff)
         {
             if (Creature* pTemp = m_creature->SummonCreature(NPC_LIGHTNING_ELEMENTAL, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000))
-                ++m_uiSummonNum;
+                m_uiSummonNum--;
 
-            if (m_uiSummonNum > 9)
+            if (m_uiSummonNum == 0)
                 m_creature->DealDamage(m_creature, m_creature->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
 
             m_uiSummon_Timer = 500;

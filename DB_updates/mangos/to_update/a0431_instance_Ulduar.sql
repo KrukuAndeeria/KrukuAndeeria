@@ -191,6 +191,7 @@ UPDATE creature_template SET ScriptName = 'mob_rune_of_power' WHERE entry = 3370
 UPDATE creature_template SET ScriptName = 'mob_rune_of_summoning' WHERE entry = 33051;
 UPDATE creature_template SET ScriptName = 'mob_ulduar_lightning_elemental' WHERE entry = 32958;
 UPDATE creature_template SET mechanic_immune_mask = 619397115 WHERE entry IN (32857, 33694, 32927, 33692, 32867, 33693);
+UPDATE creature_template SET mechanic_immune_mask = 619395067 WHERE entry IN (32857, 33694); -- Brundir stunnable
 
 -- Kologarn
 -- fix arms position because of the missing vehicles
