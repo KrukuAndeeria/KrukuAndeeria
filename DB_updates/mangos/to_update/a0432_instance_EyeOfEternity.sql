@@ -38,12 +38,14 @@ INSERT INTO `spell_script_target` VALUES
 UPDATE creature_template SET minhealth = 100000, maxhealth = 100000 WHERE entry = 32535;
 -- allow drakes to be healed and use proper spell2 entry
 UPDATE vehicle_data SET flags = flags|0x0010, Spell2 = 56092 WHERE entry = 165;
+
 -- Hover Disk
-DELETE FROM vehicle_seat_data WHERE seat = 2223;
-INSERT INTO vehicle_seat_data (seat, flags) VALUES
-(2223, 5);
+-- unused until casting from vehicles get implemented
+-- DELETE FROM vehicle_seat_data WHERE seat = 2223;
+-- INSERT INTO vehicle_seat_data (seat, flags) VALUES
+-- (2223, 5);
 -- make disk unattackable
-UPDATE vehicle_data SET flags = flags|0x0080|0x0004|0x0008 WHERE entry = 223;
+-- UPDATE vehicle_data SET flags = flags|0x0080|0x0004|0x0008 WHERE entry = 223;
 
 -- Fix Loot caches being not selectable
 UPDATE gameobject_template SET faction = 35, flags = 0 WHERE entry IN (193967, 193905);
