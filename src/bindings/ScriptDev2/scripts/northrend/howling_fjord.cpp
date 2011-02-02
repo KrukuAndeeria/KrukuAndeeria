@@ -1086,6 +1086,94 @@ bool GOUse_go_dragonflayer_cage(Player* pPlayer, GameObject* pGo)
     return false;
 };
 
+/*######
+## npc_vrykul
+######*/
+
+/*ToDo:
+Add Bonus event with Lich King
+*/
+enum
+{
+    AM_VRYKUL_SAY_1			= -1790000,
+	AM_VRYKUL_SAY_2			= -1790001,
+	AM_VRYKUL_SAY_3			= -1790003,
+	AF_VRYKUL_SAY_1			= -1790002,
+	AF_VRYKUL_SAY_2			= -1790004,
+	NPC_FEMALE_VRYKUL		= 24315,
+	QUEST_ECHO_OF_YMIRON	= 11343
+
+};
+
+struct MANGOS_DLL_DECL npc_valkyrAI : public ScriptedAI
+{
+    npc_valkyrAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
+    
+     uint64 uiPlayerGUID;
+	 uint64 uiSpeechTimer;
+     bool bEventStarted;
+	 uint32 uiPhase;
+
+     void Reset()
+     {
+         uiPlayerGUID = 0;
+         bEventStarted = false;
+		 uiPhase = 0;
+		 uiSpeechTimer = 2000;
+     }
+              
+     void MoveInLineOfSight(Unit *pWho)
+     {
+         ScriptedAI::MoveInLineOfSight(pWho);
+
+		 if (pWho->GetTypeId() == TYPEID_PLAYER && m_creature->IsWithinDistInMap(pWho, 15.0f) )
+         {
+			 uiPlayerGUID = pWho->GetGUID();
+             bEventStarted = true;           
+         }
+      }
+     
+     void UpdateAI(const uint32 uiDiff)
+        {
+			if(bEventStarted)
+			{
+				if (uiSpeechTimer <= uiDiff)
+				{
+					switch(uiPhase)
+					{
+						case 0: DoScriptText(AM_VRYKUL_SAY_1, m_creature); uiPhase++; uiSpeechTimer = 6000; break;
+						case 1: DoScriptText(AM_VRYKUL_SAY_2, m_creature);  uiPhase++; uiSpeechTimer = 3000; break;
+						case 2: if(Creature *pFemaleVrykul= GetClosestCreatureWithEntry(m_creature, NPC_FEMALE_VRYKUL, 15.0f))
+									{
+										DoScriptText(AF_VRYKUL_SAY_1, pFemaleVrykul);
+									}
+								uiPhase++; uiSpeechTimer = 5000; break;
+						case 3: DoScriptText(AM_VRYKUL_SAY_3, m_creature);  uiPhase++; uiSpeechTimer = 6000; break;
+						case 4: { 
+								  if(Creature *pFemaleVrykul= GetClosestCreatureWithEntry(m_creature, NPC_FEMALE_VRYKUL, 15.0f))
+									{
+										DoScriptText(AF_VRYKUL_SAY_2, pFemaleVrykul);
+									}
+								   if (Player *pPlayer = m_creature->GetMap()->GetPlayer(uiPlayerGUID))
+									{
+										pPlayer->AreaExploredOrEventHappens(QUEST_ECHO_OF_YMIRON);
+								    }
+									uiPhase = 0; 
+									bEventStarted = false;
+									m_creature->ForcedDespawn(1000);
+									break;
+								}
+					}
+				} else uiSpeechTimer -= uiDiff;
+			}
+        }
+};
+
+CreatureAI* GetAI_npc_valkyr(Creature* pCreature)
+{
+    return new npc_valkyrAI(pCreature);
+}
+
 void AddSC_howling_fjord()
 {
     Script* pNewScript;
@@ -1161,5 +1249,10 @@ void AddSC_howling_fjord()
     pNewScript = new Script;
     pNewScript->Name = "go_dragonflayer_cage";
     pNewScript->pGOUse = &GOUse_go_dragonflayer_cage;
+    pNewScript->RegisterSelf();
+
+	pNewScript = new Script;
+    pNewScript->Name = "npc_valkyr";
+    pNewScript->GetAI = &GetAI_npc_valkyr;
     pNewScript->RegisterSelf();
 }
