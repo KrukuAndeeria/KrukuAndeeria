@@ -1174,6 +1174,61 @@ CreatureAI* GetAI_npc_valkyr(Creature* pCreature)
     return new npc_valkyrAI(pCreature);
 }
 
+/*######
+## npc_alliance_banner
+######*/
+
+enum
+{
+    NPC_WINTERSKORN_DEFENDER    = 24015,
+	QUEST_DROP_IT_THEN_ROCK_IT	= 11429
+
+};
+
+struct MANGOS_DLL_DECL npc_bannerAI : public ScriptedAI
+{
+    npc_bannerAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
+    
+     
+	 uint64 uiWaveTimer;
+     uint32 uiWaveCounter;
+
+     void Reset()
+     {
+		 uiWaveTimer = 2000;
+		 uiWaveCounter = 0;
+     }
+
+     void JustSummoned(Creature* pSummoned)
+     {
+		 pSummoned->Attack(m_creature, true);
+         pSummoned->AddThreat(m_creature, 999.9f, true);
+     }              
+     void UpdateAI(const uint32 uiDiff)
+        {
+				if (uiWaveTimer <= uiDiff)
+				{										
+					if(uiWaveCounter == 4)
+					{
+						if(Player *pPlayer = m_creature->GetMap()->GetPlayer(m_creature->GetOwnerGUID()))
+						{
+							pPlayer->AreaExploredOrEventHappens(QUEST_DROP_IT_THEN_ROCK_IT);
+                            m_creature->ForcedDespawn(1000);
+						}
+					}
+					else m_creature->SummonCreature(NPC_WINTERSKORN_DEFENDER, 1481.52f, -5326.88f, 194.52f, 0, TEMPSUMMON_CORPSE_DESPAWN, 0);	
+				  uiWaveTimer = 5000;
+				  uiWaveCounter++;
+				} else uiWaveTimer -= uiDiff;
+			
+        }
+};
+
+CreatureAI* GetAI_npc_banner(Creature* pCreature)
+{
+    return new npc_bannerAI(pCreature);
+}
+
 void AddSC_howling_fjord()
 {
     Script* pNewScript;
@@ -1254,5 +1309,10 @@ void AddSC_howling_fjord()
 	pNewScript = new Script;
     pNewScript->Name = "npc_valkyr";
     pNewScript->GetAI = &GetAI_npc_valkyr;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "npc_banner";
+    pNewScript->GetAI = &GetAI_npc_banner;
     pNewScript->RegisterSelf();
 }
