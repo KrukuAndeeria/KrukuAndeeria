@@ -487,13 +487,19 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
         }
         else m_uiTendrils_start_Timer -= uiDiff;
 
-        if (m_uiTendrils_Change < uiDiff && m_bIsTendrils)
+        if (m_bIsTendrils)
         {
-            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
-                m_creature->AI()->AttackStart(pTarget);
-            m_uiTendrils_Change = 6000;
+            if (m_uiTendrils_Change < uiDiff)
+            {
+                if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+                {
+                    DoResetThreat();
+                    m_creature->AI()->AttackStart(pTarget);
+                    m_uiTendrils_Change = 6000;
+                }
+            }
+            else m_uiTendrils_Change -= uiDiff;
         }
-        else m_uiTendrils_Change -= uiDiff;
 
         if (m_uiTendrils_end_Timer < uiDiff && m_bIsTendrils)
         {

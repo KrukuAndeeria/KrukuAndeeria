@@ -1906,8 +1906,8 @@ void Spell::SetTargetMap(SpellEffectIndex effIndex, uint32 targetMode, UnitList&
                 if (m_caster->getVictim())
                     targetUnitMap.remove(m_caster->getVictim());
             }
-            // Focused Eyebeam (Kologarn)
-            else if (m_spellInfo->Id == 63342)
+            else if (m_spellInfo->Id == 63342 ||                         // Focused Eyebeam (Kologarn)
+                m_spellInfo->Id == 62166 || m_spellInfo->Id == 63981)    // Stone Grip (Kologarn)
             {
                 targetUnitMap.clear();
                 if (m_targets.getUnitTarget())
