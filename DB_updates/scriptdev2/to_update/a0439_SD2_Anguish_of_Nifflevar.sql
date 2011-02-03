@@ -1,0 +1,23 @@
+DELETE from script_texts WHERE entry BETWEEN -1799020 AND -1799000;
+INSERT into script_texts (entry,content_default,type,comment) VALUES
+(-1799000,'Vrykul must remain pure!',0,'AC_VRYKUL_SAY_1'),
+(-1799001,'Show the aberrations no mercy, Ymiron!',0,'AC_VRYKUL_SAY_2'),
+(-1799002,'Show them mercy, my king! They are of our flesh and blood!',0,'AC_VRYKUL_SAY_3'),
+(-1799003,'They weaken us! Our strength is dilluted by their very existence! Destroy them all!',0,'AC_VRYKUL_SAY_4'),
+(-1799004,'All hail our glorious king, Ymiron!',0,'AC_VRYKUL_SAY_5'),
+(-1799005,'Let him speak! Be silent!',0,'AC_VRYKUL_SAY_6'),
+(-1799006,' The king is going to speak!',0,'AC_VRYKUL_SAY_7'),
+(-1799007,'King Ymiron motions for silence.',3,'KING_YMIRON_SAY_1'),
+(-1799008,'Silence!',0,'AC_VRYKUL_SAY_8'),
+(-1799009,'Vrykul, your king implores you to listen!',1,'KING_YMIRON_SAY_2'),
+(-1799010,'The gods have abandoned us!',1,'KING_YMIRON_SAY_3'),
+(-1799011,'The crowd gasps in horror.',2,'TEXT_EMOTE_1'),
+(-1799012,'Even now, in our darkest hour, they mock us!',1,'KING_YMIRON_SAY_4'),
+(-1799013,'Where are the titans  in our time of greatest need? Our women birth aberrations - disfigured runts unable to even stand on their own! Weak and ugly... Useless...',1,'KING_YMIRON_SAY_5'),
+(-1799014,'Ymiron has long toiled. Long have I sat upon my throne and thought hard of our plight. There is only one answer... one reason...',1,'KING_YMIRON_SAY_6'),
+(-1799015,'For who but the titans themselves could bestow such a curse? What could have such power?',1,'KING_YMIRON_SAY_7'),
+(-1799016,' And the answer is nothing... For it is the titans that have cursed us!',1,'KING_YMIRON_SAY_8'),
+(-1799017,'The crowd clamours.',2,'TEXT_EMOTE_2'),
+(-1799018,'On this day all Vrykul will shed their old beliefs! We denounce our old gods! All Vrykul will pledge their allegiance to Ymiron! Ymiron will protect our noble race!',1,'KING_YMIRON_SAY_9'),
+(-1799019,'The crowd cheers.',2,'TEXT_EMOTE_3'),
+(-1799020,'And now my first decree upon the Vrykul! All malformed infants born of Vrykul mother and father are to be destroyed upon birth! Our blood must remain pure always! Those found in violation of Ymiron\'s decree will be taken to Gjalerbron for execution!',1,'KING_YMIRON_SAY_10');
