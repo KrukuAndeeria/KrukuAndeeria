@@ -591,7 +591,7 @@ struct MANGOS_DLL_DECL boss_kologarnAI : public ScriptedAI
 
             //Petrifying breath
             if (m_creature->GetCombatDistance(m_creature->getVictim()) >= ATTACK_DISTANCE)
-                DoCast(m_creature, m_bIsRegularMode ? SPELL_PETRIFYING_BREATH : SPELL_PETRIFYING_BREATH_H);
+                DoCast(m_creature->getVictim(), m_bIsRegularMode ? SPELL_PETRIFYING_BREATH : SPELL_PETRIFYING_BREATH_H);
 
             m_uiCheck_Timer = 500;
         }else m_uiCheck_Timer -= uiDiff;
