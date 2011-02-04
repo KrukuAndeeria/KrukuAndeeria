@@ -15,6 +15,7 @@
  */
 
 /* ScriptData
+<<<<<<< HEAD
 SDName: Wailing Caverns
 SD%Complete: 
 SDComment: 
@@ -308,7 +309,7 @@ struct MANGOS_DLL_DECL npc_disciple_of_naralexAI : public npc_escortAI
                     Event_Timer = 2000;
                     break;
                 case 7:
-                    if (m_pInstance->GetData(TYPE_MUTANOUS) == DONE)
+                    if (m_pInstance->GetData(TYPE_MUTANUS) == DONE)
                     {
                     Naralex->SetByteValue(UNIT_FIELD_BYTES_1,0,UNIT_STAND_STATE_SIT);
                     DoScriptText(SAY_NARALEX_AWAKEN,Naralex);
@@ -426,6 +427,7 @@ CreatureAI* GetAI_npc_disciple_of_naralex(Creature* pCreature)
 {
     return new npc_disciple_of_naralexAI(pCreature);
 }
+
 
 void AddSC_wailing_caverns()
 {

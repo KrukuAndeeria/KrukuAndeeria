@@ -923,39 +923,11 @@
 						>
 					</File>
 					<File
-						RelativePath="..\scripts\eastern_kingdoms\scholomance\boss_doctor_theolen_krastinov.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\scripts\eastern_kingdoms\scholomance\boss_illucia_barov.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\scripts\eastern_kingdoms\scholomance\boss_instructor_malicia.cpp"
-						>
-					</File>
-					<File
 						RelativePath="..\scripts\eastern_kingdoms\scholomance\boss_jandice_barov.cpp"
 						>
 					</File>
 					<File
 						RelativePath="..\scripts\eastern_kingdoms\scholomance\boss_kormok.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\scripts\eastern_kingdoms\scholomance\boss_lord_alexei_barov.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\scripts\eastern_kingdoms\scholomance\boss_lorekeeper_polkelt.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\scripts\eastern_kingdoms\scholomance\boss_ras_frostwhisper.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\scripts\eastern_kingdoms\scholomance\boss_the_ravenian.cpp"
 						>
 					</File>
 					<File
@@ -2700,10 +2672,6 @@
 						</File>
 						<File
 							RelativePath="..\scripts\outland\coilfang_reservoir\serpent_shrine\instance_serpent_shrine.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\scripts\outland\coilfang_reservoir\serpent_shrine\serpent_shrine.cpp"
 							>
 						</File>
 						<File

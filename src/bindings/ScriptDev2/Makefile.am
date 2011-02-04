@@ -166,15 +166,8 @@ scripts/eastern_kingdoms/scarlet_monastery/instance_scarlet_monastery.cpp \
 scripts/eastern_kingdoms/scarlet_monastery/scarlet_monastery.h \
 scripts/eastern_kingdoms/scholomance/boss_darkmaster_gandling.cpp \
 scripts/eastern_kingdoms/scholomance/boss_death_knight_darkreaver.cpp \
-scripts/eastern_kingdoms/scholomance/boss_doctor_theolen_krastinov.cpp \
-scripts/eastern_kingdoms/scholomance/boss_illucia_barov.cpp \
-scripts/eastern_kingdoms/scholomance/boss_instructor_malicia.cpp \
 scripts/eastern_kingdoms/scholomance/boss_jandice_barov.cpp \
 scripts/eastern_kingdoms/scholomance/boss_kormok.cpp \
-scripts/eastern_kingdoms/scholomance/boss_lord_alexei_barov.cpp \
-scripts/eastern_kingdoms/scholomance/boss_lorekeeper_polkelt.cpp \
-scripts/eastern_kingdoms/scholomance/boss_ras_frostwhisper.cpp \
-scripts/eastern_kingdoms/scholomance/boss_the_ravenian.cpp \
 scripts/eastern_kingdoms/scholomance/boss_vectus.cpp \
 scripts/eastern_kingdoms/scholomance/instance_scholomance.cpp \
 scripts/eastern_kingdoms/scholomance/scholomance.h \
@@ -495,6 +488,11 @@ scripts/northrend/vault_of_archavon/boss_koralon.cpp \
 scripts/northrend/vault_of_archavon/boss_toravon.cpp \
 scripts/northrend/vault_of_archavon/instance_vault_of_archavon.cpp \
 scripts/northrend/vault_of_archavon/vault_of_archavon.h \
+scripts/northrend/violet_hold/boss_erekem.cpp \
+scripts/northrend/violet_hold/boss_ichoron.cpp \
+scripts/northrend/violet_hold/instance_violet_hold.cpp \
+scripts/northrend/violet_hold/violet_hold.cpp \
+scripts/northrend/violet_hold/violet_hold.h \
 scripts/outland/blades_edge_mountains.cpp \
 scripts/outland/boss_doomlord_kazzak.cpp \
 scripts/outland/boss_doomwalker.cpp \
