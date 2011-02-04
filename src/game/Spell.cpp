@@ -2428,6 +2428,7 @@ void Spell::SetTargetMap(SpellEffectIndex effIndex, uint32 targetMode, UnitList&
             {
                 // targets are checked with original caster, which is in fact hostile, not friendly
                 FillAreaTargets(targetUnitMap, m_targets.m_destX, m_targets.m_destY, radius, PUSH_DEST_CENTER, SPELL_TARGETS_HOSTILE);
+                targetUnitMap.remove(m_targets.getUnitTarget()); // the target of aura triggering this spell
             }
             else
             {
