@@ -1384,6 +1384,51 @@ CreatureAI* GetAI_npc_king_ymiron(Creature* pCreature)
 {
     return new npc_king_ymironAI(pCreature);
 }
+
+/*#####
+## go_gjalerbron_cage
+#####*/
+
+enum
+{
+    QUEST_OF_KEY_AND_CAGES_A    = 11231,
+    QUEST_OF_KEY_AND_CAGES_H    = 11265,
+    NPC_GJALERBON_PRISONER      = 24035,
+    SPELL_DESPAWN_SELF          = 43014
+};
+
+bool GOUse_go_gjalerbon_cage(Player* pPlayer, GameObject* pGo)
+{
+    if (pPlayer->GetQuestStatus(QUEST_OF_KEY_AND_CAGES_A) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(QUEST_OF_KEY_AND_CAGES_H) == QUEST_STATUS_INCOMPLETE)
+    {
+            if(Creature *pPrisoner = GetClosestCreatureWithEntry(pPlayer, NPC_GJALERBON_PRISONER, 10))
+            {
+                pPlayer->KilledMonsterCredit(NPC_GJALERBON_PRISONER, pPrisoner->GetGUID());
+                pPrisoner->CastSpell(pPrisoner, SPELL_DESPAWN_SELF, false);
+            }
+    }
+    return false;
+};
+
+bool GOUse_go_large_gjalerbon_cage(Player* pPlayer, GameObject* pGo)
+{
+    if (pPlayer->GetQuestStatus(QUEST_OF_KEY_AND_CAGES_A) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(QUEST_OF_KEY_AND_CAGES_H) == QUEST_STATUS_INCOMPLETE)
+    {
+        std::list<Creature*> lGjalerbronPrisoners;
+        GetCreatureListWithEntryInGrid(lGjalerbronPrisoners, pPlayer,  NPC_GJALERBON_PRISONER, 20.0f);
+        if (lGjalerbronPrisoners.empty())
+            return false;
+
+        for (std::list<Creature*>::iterator itr = lGjalerbronPrisoners.begin(); itr != lGjalerbronPrisoners.end(); ++itr)
+        {
+                pPlayer->KilledMonsterCredit(NPC_GJALERBON_PRISONER, (*itr)->GetGUID());
+                (*itr)->CastSpell(*itr, SPELL_DESPAWN_SELF, false);
+        }
+            
+    }
+    return false;
+};
+
 void AddSC_howling_fjord()
 {
     Script* pNewScript;
@@ -1474,5 +1519,15 @@ void AddSC_howling_fjord()
     pNewScript = new Script;
     pNewScript->Name = "npc_king_ymiron";
     pNewScript->GetAI = &GetAI_npc_king_ymiron;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "go_gjalerbon_cage";
+    pNewScript->pGOUse = &GOUse_go_gjalerbon_cage;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "go_large_gjalerbon_cage";
+    pNewScript->pGOUse = &GOUse_go_large_gjalerbon_cage;
     pNewScript->RegisterSelf();
 }
