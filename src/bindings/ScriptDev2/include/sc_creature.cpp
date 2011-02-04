@@ -121,6 +121,9 @@ void ScriptedAI::DoStartNoMovement(Unit* pVictim)
 
 void ScriptedAI::DoMeleeAttackIfReady()
 {
+    if (!m_creature->getVictim())
+        sLog.outError("DEBUGGING: DoMeleeAttackIfReady() executed by (entry): %u with victim = NULL", m_creature->GetEntry());
+
     //Make sure our attack is ready before checking distance
     if (m_creature->isAttackReady())
     {
