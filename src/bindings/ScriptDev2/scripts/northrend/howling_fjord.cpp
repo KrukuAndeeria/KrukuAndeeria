@@ -1128,8 +1128,11 @@ struct MANGOS_DLL_DECL npc_valkyrAI : public ScriptedAI
 
 		 if (pWho->GetTypeId() == TYPEID_PLAYER && m_creature->IsWithinDistInMap(pWho, 15.0f) )
          {
-			 uiPlayerGUID = pWho->GetGUID();
-             bEventStarted = true;           
+			 if(!bEventStarted)
+             {
+			    uiPlayerGUID = pWho->GetGUID();
+                bEventStarted = true;  
+             }           
          }
       }
      
