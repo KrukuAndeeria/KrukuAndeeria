@@ -1210,7 +1210,7 @@ struct MANGOS_DLL_DECL npc_bannerAI : public ScriptedAI
 				{										
 					if(uiWaveCounter == 4)
 					{
-						if(Player *pPlayer = m_creature->GetMap()->GetPlayer(m_creature->GetOwnerGUID()))
+						if(Player *pPlayer = m_creature->GetMap()->GetPlayer(m_creature->GetOwnerGuid()))
 						{
 							pPlayer->AreaExploredOrEventHappens(QUEST_DROP_IT_THEN_ROCK_IT);
                             m_creature->ForcedDespawn(1000);
