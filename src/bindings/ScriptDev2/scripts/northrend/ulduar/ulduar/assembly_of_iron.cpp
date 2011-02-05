@@ -284,17 +284,18 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
     void Reset()
     {
         m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
-        m_uiChain_Lightning_Timer = 0;
-        m_uiOverload_Timer      = 35000;
-        m_uiEnrage_Timer        = 900000;
-        m_uiCheckTimer          = 1000;
-        m_bIsEnrage             = false;
-        m_bHasSupercharge1      = false;
-        m_bHasSupercharge2      = false;
-        m_bIsTendrils           = false;
-        m_bIsSteelbreakerDead   = false;
-        m_bIsMolgeimDead        = false;
-        m_bMustDie              = false;
+        m_uiChain_Lightning_Timer = 5000;
+        m_uiOverload_Timer        = 35000;
+        m_uiEnrage_Timer          = 900000;
+        m_uiCheckTimer            = 1000;
+        m_bIsEnrage               = false;
+        m_bHasSupercharge1        = false;
+        m_bHasSupercharge2        = false;
+        m_bIsTendrils             = false;
+        m_bIsSteelbreakerDead     = false;
+        m_bIsMolgeimDead          = false;
+        m_bMustDie                = false;
+        SetCombatMovement(true);
         if (m_creature->HasAura(SPELL_SUPERCHARGE))
             m_creature->RemoveAurasDueToSpell(SPELL_SUPERCHARGE);
     }
@@ -319,11 +320,9 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
     void JustDied(Unit* pKiller)
     {
         m_creature->RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
-        // if all of them are dead
+
         if (m_pInstance)
         {
-            // remove supercharge from players -> spell bug
-            //m_pInstance->DoRemoveAurasDueToSpellOnPlayers(SPELL_SUPERCHARGE);
             // if the others are dead then give loot
             if (Creature* pTemp = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_STEELBREAKER)))
             {
@@ -354,7 +353,7 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
             }
         }
 
-        if(irand(0,1))
+        if(roll_chance_i(50))
             DoScriptText(SAY_BRUNDIR_DEATH_1, m_creature);
         else
             DoScriptText(SAY_BRUNDIR_DEATH_2, m_creature);
