@@ -75,10 +75,7 @@ void ScriptedPetAI::ResetPetCombat()
 
 void ScriptedPetAI::DoMeleeAttackIfReady()
 {
-    if (!m_creature->getVictim())
-        error_log("SD2: DoMeleeAttackIfReady() executed by pet (entry): %u with victim = NULL", m_creature->GetEntry());
-
-    if (m_creature->isAttackReady() && m_creature->getVictim())
+    if (m_creature->isAttackReady())
     {
         if (m_creature->CanReachWithMeleeAttack(m_creature->getVictim()))
         {
