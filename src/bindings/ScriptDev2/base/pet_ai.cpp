@@ -75,7 +75,7 @@ void ScriptedPetAI::ResetPetCombat()
 
 void ScriptedPetAI::DoMeleeAttackIfReady()
 {
-    if (m_creature->isAttackReady())
+    if (m_creature->isAttackReady() && m_creature->getVictim())
     {
         if (m_creature->CanReachWithMeleeAttack(m_creature->getVictim()))
         {

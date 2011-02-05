@@ -1036,6 +1036,11 @@ struct MANGOS_DLL_DECL dummy_dragonAI : public ScriptedAI
             {
                 m_pInstance->SetData(TYPE_VESPERON, DONE);
                 iTextId = SAY_VESPERON_DEATH;
+
+                // kill Disciple of Vesperon if solo fight or died after killing Sartharion
+                if (m_pInstance->GetData(TYPE_SARTHARION_EVENT) != IN_PROGRESS)
+                    if (Creature* pAcolyte = m_pInstance->instance->GetCreature(m_pInstance->GetData64(DATA_ACOL_VESP)))
+                        pAcolyte->ForcedDespawn();
                 break;
             }
         }
