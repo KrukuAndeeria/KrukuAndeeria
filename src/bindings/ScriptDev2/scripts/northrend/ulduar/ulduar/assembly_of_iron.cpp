@@ -481,7 +481,10 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
                 if (DoCastSpellIfCan(m_creature, m_bIsRegularMode ? SPELL_LIGHTNING_TENDRILS : SPELL_LIGHTNING_TENDRILS_H) == CAST_OK)
                     m_uiTendrils_start_Timer = 90000;
                 if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+                {
                     m_creature->AI()->AttackStart(pTarget);
+                    m_creature->AddThreat(pTarget, 1000000.0f);
+                }
             }
         }
         else m_uiTendrils_start_Timer -= uiDiff;
@@ -494,6 +497,7 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
                 {
                     DoResetThreat();
                     m_creature->AI()->AttackStart(pTarget);
+                    m_creature->AddThreat(pTarget, 1000000.0f);
                     m_uiTendrils_Change = 6000;
                 }
             }
@@ -514,6 +518,12 @@ struct MANGOS_DLL_DECL boss_brundirAI : public ScriptedAI
             m_uiChain_Lightning_Timer = 5000;
             m_uiOverload_Timer = 35000;
             m_uiWhirl_Timer = 10000;
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            {
+                DoResetThreat();
+                m_creature->AI()->AttackStart(pTarget);
+            }
+            SetCombatMovement(false);
         }
         else m_uiTendrils_end_Timer -= uiDiff;
 
