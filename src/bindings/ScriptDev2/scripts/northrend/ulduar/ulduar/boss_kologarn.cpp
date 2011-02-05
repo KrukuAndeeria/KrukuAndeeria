@@ -205,8 +205,6 @@ struct MANGOS_DLL_DECL boss_left_armAI : public ScriptedAI
             DoCast(m_creature, m_bIsRegularMode ? SPELL_ARM_SWEEP : SPELL_ARM_SWEEP_H);
             m_uiShockwave_Timer = 17000;
         }else m_uiShockwave_Timer -= diff;
-
-        DoMeleeAttackIfReady();
     }
 };
 
@@ -324,10 +322,9 @@ struct MANGOS_DLL_DECL boss_right_armAI : public ScriptedAI
                     m_uiGripTargetGUID[i] = pTarget->GetGUID();
                 }
             }
+            m_uiFreeDamage = 0;
             m_uiStone_Grip_Timer = 30000;
         }else m_uiStone_Grip_Timer -= diff;
-
-        DoMeleeAttackIfReady();
     }
 };
 
