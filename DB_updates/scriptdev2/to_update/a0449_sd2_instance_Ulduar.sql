@@ -111,3 +111,36 @@ INSERT INTO script_texts (entry, content_default, content_loc1, content_loc2, co
 (-1603142,"Auriaya screams in agony.","","","","","","","","",15476,2,0,0,"auriaya death"),
 (-1603143,'Auriaya begins to cast Terrifying Screech.' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_screech'),
 (-1603144,'Auriaya begins to activate the Feral Defender!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_defender');
+
+-- Freya: 
+DELETE FROM script_texts WHERE entry BETWEEN -1603144 AND -1603138;
+INSERT INTO script_texts (entry, content_default, content_loc1, content_loc2, content_loc3, content_loc4, content_loc5, content_loc6, content_loc7, content_loc8, sound, type, language, emote, comment) VALUES
+(-1603145,"The Conservatory must be protected!","","","","","","","","",15526,1,0,0,"freya aggro"),
+(-1603146,"Elders, grant me your strength!","","","","","","","","",15527,1,0,0,"freya aggro hard"),
+(-1603147,"Eonar, your servant requires aid!","","","","","","","","",15528,1,0,0,"summon conservator"),
+(-1603148,"Children, assist me!","","","","","","","","",15533,1,0,0,"summon trio"),
+(-1603149,"The swarm of the elements shall overtake you!","","","","","","","","",15534,1,0,0,"summon lashers"),
+(-1603150,"Forgive me.","","","","","","","","",15529,1,0,0,"freya slay1"),
+(-1603151,"From your death springs life anew!","","","","","","","","",15530,1,0,0,"freya slay2"),
+(-1603152,"His hold on me dissipates. I can see clearly once more. Thank you, heroes.","","","","","","","","",15531,1,0,0,"freya Death"),
+(-1603153,"You have strayed too far, wasted too much time!","","","","","","","","",15532,1,0,0,"freya berserk"),
+(-1603154,"Eonar, your servant calls for your blessing!","","","","","","","","",15535,1,0,0,"freya yogg"),
+(-1603155,'Allies of Nature have appeared!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_allies'),
+(-1603156,'A Lifebinder\'s Gift begins to grow!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_lifebinders'),
+(-1603157,'Freya begins to cast Ground Tremor!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_ground tremor'),
+(-1603158,'Freya casts Strenghtened Iron Roots!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_iron roots'),
+-- Brightleaf
+(-1603159,"Matron, the Conservatory has been breached!","","","","","","","","",15483,1,0,0,"brightleaf aggro"),
+(-1603160,"Fertilizer.","","","","","","","","",15485,1,0,0,"brightleaf slay1"),
+(-1603161,"Your corpse will nourish the soil!","","","","","","","","",15486,1,0,0,"brightleaf slay2"),
+(-1603162,"Matron, one has fallen!","","","","","","","","",15487,1,0,0,"brightleaf death"),
+-- Ironbranch
+(-1603163,"Mortals have no place here!","","","","","","","","",15493,1,0,0,"ironbranch aggro"),
+(-1603164,"I return you whence you came!","","","","","","","","",15494,1,0,0,"ironbranch slay1"),
+(-1603165,"BEGONE!","","","","","","","","",15495,1,0,0,"ironbranch slay2"),
+(-1603166,"Freya! They come for you.","","","","","","","","",15496,1,0,0,"ironbranch death"),
+-- Stonebark
+(-1603167,"This place will serve as your graveyard.","","","","","","","","",15500,1,0,0,"stonebark aggro"),
+(-1603168,"<Angry roar>","","","","","","","","",15501,1,0,0,"stonebark slay1"),
+(-1603169,"Such a waste.","","","","","","","","",15502,1,0,0,"stonebark slay2"),
+(-1603170,"Matron, flee! They are ruthless....","","","","","","","","",15503,1,0,0,"stonebark death");
