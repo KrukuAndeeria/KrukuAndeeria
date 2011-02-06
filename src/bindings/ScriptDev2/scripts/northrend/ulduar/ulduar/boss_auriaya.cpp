@@ -556,7 +556,7 @@ struct MANGOS_DLL_DECL boss_auriayaAI : public ScriptedAI
             if (!IsCastPostponed())
             {
                 DoCast(m_creature, m_bIsRegularMode ? SPELL_SENTINEL_BLAST : SPELL_SENTINEL_BLAST_H);
-                m_uiSentinel_Blast_Timer = urand(30000, 40000);
+                m_uiSentinel_Blast_Timer = 37000;
             }
         }else m_uiSentinel_Blast_Timer -= uiDiff;
 
