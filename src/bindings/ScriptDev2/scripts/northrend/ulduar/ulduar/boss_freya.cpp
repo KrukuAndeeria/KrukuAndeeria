@@ -632,17 +632,17 @@ struct MANGOS_DLL_DECL boss_freyaAI : public ScriptedAI
         if(m_pInstance)
         {
             // remove elder auras
-            if (Creature* pBrightleaf = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_ELDER_BRIGHTLEAF)))
+            if (Creature* pBrightleaf = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_BRIGHTLEAF)))
             {
                 if (pBrightleaf->isAlive())
                     pBrightleaf->RemoveAllAuras();
             }
-            if (Creature* pIronbranch = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_ELDER_IRONBRACH)))
+            if (Creature* pIronbranch = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_IRONBRACH)))
             {
                 if (pIronbranch->isAlive())
                     pIronbranch->RemoveAllAuras();
             }
-            if (Creature* pStonebark = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_ELDER_STONEBARK)))
+            if (Creature* pStonebark = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_STONEBARK)))
             {
                 if (pStonebark->isAlive())
                     pStonebark->RemoveAllAuras();
@@ -660,7 +660,7 @@ struct MANGOS_DLL_DECL boss_freyaAI : public ScriptedAI
             m_pInstance->SetData(TYPE_FREYA, IN_PROGRESS);
 
             // check brightleaf
-            if (Creature* pBrightleaf = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_ELDER_BRIGHTLEAF)))
+            if (Creature* pBrightleaf = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_BRIGHTLEAF)))
             {
                 if (pBrightleaf->isAlive())
                 {
@@ -674,7 +674,7 @@ struct MANGOS_DLL_DECL boss_freyaAI : public ScriptedAI
             }
 
             // check ironbranch
-            if (Creature* pIronbranch = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_ELDER_IRONBRACH)))
+            if (Creature* pIronbranch = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_IRONBRACH)))
             {
                 if (pIronbranch->isAlive())
                 {
@@ -688,7 +688,7 @@ struct MANGOS_DLL_DECL boss_freyaAI : public ScriptedAI
             }
 
             // check stonebark
-            if (Creature* pStonebark = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_ELDER_STONEBARK)))
+            if (Creature* pStonebark = m_creature->GetMap()->GetCreature( m_pInstance->GetData64(NPC_STONEBARK)))
             {
                 if (pStonebark->isAlive())
                 {

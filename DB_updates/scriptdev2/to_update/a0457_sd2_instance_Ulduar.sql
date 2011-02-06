@@ -113,7 +113,7 @@ INSERT INTO script_texts (entry, content_default, content_loc1, content_loc2, co
 (-1603144,'Auriaya begins to activate the Feral Defender!' ,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,3,0,0,'EMOTE_defender');
 
 -- Freya: 
-DELETE FROM script_texts WHERE entry BETWEEN -1603144 AND -1603138;
+DELETE FROM script_texts WHERE entry BETWEEN -1603170 AND -1603145;
 INSERT INTO script_texts (entry, content_default, content_loc1, content_loc2, content_loc3, content_loc4, content_loc5, content_loc6, content_loc7, content_loc8, sound, type, language, emote, comment) VALUES
 (-1603145,"The Conservatory must be protected!","","","","","","","","",15526,1,0,0,"freya aggro"),
 (-1603146,"Elders, grant me your strength!","","","","","","","","",15527,1,0,0,"freya aggro hard"),
