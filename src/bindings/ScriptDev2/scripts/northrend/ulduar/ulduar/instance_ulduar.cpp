@@ -347,7 +347,6 @@ void instance_ulduar::OnObjectCreate(GameObject *pGo)
         break;
     case GO_SHATTERED_DOOR:
         m_uiShatteredHallsDoorGUID = pGo->GetGUID();
-        pGo->SetGoState(GO_STATE_READY);
         break;
 
         // The keepers
